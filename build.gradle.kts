@@ -2,21 +2,28 @@ plugins {
     kotlin("jvm") version "1.9.0"
 }
 
-group = "org.bclipse"
-version = "1.0-SNAPSHOT"
+allprojects {
+    group = "org.bclipse"
+    version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+subprojects{
+    apply(plugin = "kotlin")
+    apply(plugin = "kotlin-kapt")
 
-tasks.test {
-    useJUnitPlatform()
-}
+    dependencies {
+        testImplementation(kotlin("test"))
+    }
 
-kotlin {
-    jvmToolchain(8)
+    kotlin {
+        jvmToolchain(17)
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
