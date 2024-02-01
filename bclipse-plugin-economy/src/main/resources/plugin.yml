@@ -1,0 +1,10 @@
+name: bclipse-economy
+version: '${version}'
+api-version: '${apiVersion}'
+main: com.bclipse.economy.EconomyPlugin
+author: raul
+commands:
+  balance:
+    description: display your current balance
+    usage: /<command>
+
