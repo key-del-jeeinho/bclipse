@@ -9,7 +9,7 @@ data class UnsecuredApplicationDto(
     val serverId: Base64UUID,
     val applicationId: Base64UUID,
     val applicationSecret: BCryptHash,
-    val createAt: ZonedDateTime,
+    val createdAt: ZonedDateTime,
     val secretUpdateAt: ZonedDateTime,
     val secretExpiredAt: ZonedDateTime,
 ) {
@@ -19,7 +19,7 @@ data class UnsecuredApplicationDto(
                 serverId = serverId,
                 applicationId = applicationId,
                 applicationSecret = applicationSecret,
-                createAt = createdAt,
+                createdAt = createdAt,
                 secretUpdateAt = secretUpdatedAt,
                 secretExpiredAt = secretExpireAt,
             )
