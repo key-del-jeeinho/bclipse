@@ -12,3 +12,4 @@ plugins {
 rootProject.name = "bclipse"
 include("bclipse-plugin-core")
 include("bclipse-plugin-economy")
+include("bclipse-application")

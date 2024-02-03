@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    hostname: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - "27027:27017"
+    volumes:
+      - ./docker/mongodb/data:/data/db
+
+networks:
+  default:
+    name: mongoCluster
