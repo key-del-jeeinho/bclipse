@@ -6,6 +6,7 @@ import com.bclipse.application.application.dto.UnsecuredApplicationDto.Companion
 import com.bclipse.application.application.entity.Application
 import com.bclipse.application.common.domain.BCryptHash
 import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.server.ServerQueryService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.Duration
@@ -16,8 +17,13 @@ private val SECRET_EXPIRE_IN = Duration.ofDays(90)
 @Service
 class ApplicationService(
     private val applicationRepository: ApplicationRepository,
+    private val serverQueryService: ServerQueryService,
 ) {
     fun create(dto: CreateApplicationDto): UnsecuredApplicationDto {
+        val serverId = Base64UUID.fromEncodedString(dto.serverId)
+        serverQueryService.queryById(serverId)
+            ?: throw RuntimeException("server를 찾을 수 없습니다. - '${dto.serverId}") //TODO
+
         val applicationId = Base64UUID.generate()
         val applicationSecret = BCryptHash.generate()
 
@@ -28,7 +34,7 @@ class ApplicationService(
             id = ObjectId(),
             applicationId = applicationId,
             applicationSecret = applicationSecret,
-            serverId = Base64UUID.fromEncodedString(dto.serverId),
+            serverId = serverId,
             createdAt = now,
             secretUpdatedAt = now,
             secretExpireAt = secretExpireAt
