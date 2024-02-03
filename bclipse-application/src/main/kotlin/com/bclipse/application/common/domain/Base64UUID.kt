@@ -1,4 +1,4 @@
-package com.bclipse.application.common
+package com.bclipse.application.common.domain
 
 import java.nio.ByteBuffer
 import java.util.Base64

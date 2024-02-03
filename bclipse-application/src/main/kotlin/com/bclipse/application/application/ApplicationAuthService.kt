@@ -1,7 +1,7 @@
 package com.bclipse.application.application
 
 import com.bclipse.application.application.ApplicationAuthUtil.validateSecretNotExpired
-import com.bclipse.application.common.Base64UUID
+import com.bclipse.application.common.domain.Base64UUID
 import com.bclipse.application.application.ApplicationAuthUtil.validateSecretSign
 import com.bclipse.application.application.dto.AuthApplicationDto
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto

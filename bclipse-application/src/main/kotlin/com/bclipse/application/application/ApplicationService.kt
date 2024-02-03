@@ -4,8 +4,8 @@ import com.bclipse.application.application.dto.CreateApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.application.application.entity.Application
-import com.bclipse.application.common.BCryptHash
-import com.bclipse.application.common.Base64UUID
+import com.bclipse.application.common.domain.BCryptHash
+import com.bclipse.application.common.domain.Base64UUID
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.Duration

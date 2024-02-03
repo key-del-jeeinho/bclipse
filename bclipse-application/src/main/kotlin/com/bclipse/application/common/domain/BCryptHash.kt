@@ -1,4 +1,4 @@
-package com.bclipse.application.common
+package com.bclipse.application.common.domain
 
 import org.springframework.security.crypto.bcrypt.BCrypt
 import java.util.UUID

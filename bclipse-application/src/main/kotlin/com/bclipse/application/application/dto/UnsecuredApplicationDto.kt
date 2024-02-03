@@ -1,7 +1,7 @@
 package com.bclipse.application.application.dto
 
-import com.bclipse.application.common.BCryptHash
-import com.bclipse.application.common.Base64UUID
+import com.bclipse.application.common.domain.BCryptHash
+import com.bclipse.application.common.domain.Base64UUID
 import com.bclipse.application.application.entity.Application
 import java.time.ZonedDateTime
 
