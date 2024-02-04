@@ -1,7 +1,8 @@
 package com.bclipse.application.server
 
-import com.bclipse.application.server.dto.CreateServerDto
 import com.bclipse.application.server.dto.ServerDto
+import com.bclipse.application.server.request.CreateServerRequest
+import com.bclipse.application.user.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -19,9 +20,13 @@ class ServerController(
     @Operation(summary = "서버 생성")
     @PostMapping
     fun create(
-        @RequestBody request: CreateServerDto,
+        @RequestBody request: CreateServerRequest,
     ): ResponseEntity<ServerDto> {
-        val result = serverService.create(request)
+        val currentUserId = queryCurrentUserId()
+        val dto = request.toDto(currentUserId)
+
+        val result = serverService.create(dto)
+
         return ResponseEntity.ok(result)
     }
 }

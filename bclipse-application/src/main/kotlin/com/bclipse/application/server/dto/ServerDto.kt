@@ -6,6 +6,7 @@ import java.time.ZonedDateTime
 
 data class ServerDto(
     val serverId: Base64UUID,
+    val ownerId: String,
     val name: String,
     val description: String,
     val createdAt: ZonedDateTime,
@@ -13,6 +14,7 @@ data class ServerDto(
     companion object {
         fun Server.toDto(): ServerDto = ServerDto(
             serverId = serverId,
+            ownerId = ownerId,
             name = name,
             description = description,
             createdAt = createdAt

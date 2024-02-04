@@ -12,6 +12,8 @@ class Server(
     @Id val id: ObjectId,
     @Indexed(unique = true)
     val serverId: Base64UUID,
+    @Indexed
+    val ownerId: String,
     val name: String,
     val description: String,
     val createdAt: ZonedDateTime,
