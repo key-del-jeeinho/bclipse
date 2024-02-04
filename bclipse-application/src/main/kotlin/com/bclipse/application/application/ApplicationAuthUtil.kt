@@ -3,10 +3,12 @@ package com.bclipse.application.application
 import com.bclipse.application.application.domain.ApplicationSecretSign
 import com.bclipse.application.application.dto.AuthApplicationDto
 import com.bclipse.application.application.entity.Application
+import com.bclipse.application.infra.web.WebPrecondition.requireRequest
+import com.bclipse.application.infra.web.WebPrecondition.requireState
 import java.time.ZonedDateTime
 
 object ApplicationAuthUtil {
-    fun validateSecretSign(
+    fun requireRequestSecretSign(
         dto: AuthApplicationDto,
         application: Application
     ) {
@@ -16,13 +18,13 @@ object ApplicationAuthUtil {
             timestamp = dto.timestamp,
         )
 
-        if(dto.applicationSecretSign != secretSign.value)
-            throw RuntimeException("전자서명이 잘못되었습니다.") //TODO
+        val isRightSecretSign = dto.applicationSecretSign == secretSign.value
+        requireRequest(isRightSecretSign) { "전자서명이 잘못되었습니다." }
     }
 
-     fun validateSecretNotExpired(application: Application) {
+     fun requireStateSecretNotExpired(application: Application) {
          val now = ZonedDateTime.now()
          val isExpired = application.secretExpireAt.isBefore(now)
-         if(isExpired) throw RuntimeException("어플리케이션의 시크릿 키가 만료되었습니다.") //TODO
+         requireState(!isExpired) { "어플리케이션의 시크릿 키가 만료되었습니다." }
     }
 }

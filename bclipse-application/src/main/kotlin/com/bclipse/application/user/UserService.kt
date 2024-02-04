@@ -1,5 +1,6 @@
 package com.bclipse.application.user
 
+import com.bclipse.application.infra.web.WebPrecondition.requireRequest
 import com.bclipse.application.user.dto.SecuredUserDto
 import com.bclipse.application.user.dto.SecuredUserDto.Companion.toSecuredDto
 import com.bclipse.application.user.dto.SignupUserDto
@@ -15,8 +16,8 @@ class UserService(
     private val passwordEncoder: PasswordEncoder,
 ) {
     fun signup(request: SignupUserDto): SecuredUserDto {
-        val isUsingId = userRepository.existsByUserId(request.id)
-        require(!isUsingId) { "이미 사용되고있는 유저 ID입니다. - '${request.id}'" }
+        val isNotUsingId = !userRepository.existsByUserId(request.id)
+        requireRequest (isNotUsingId) { "이미 사용되고있는 유저 ID입니다. - '${request.id}'" }
 
         val encodedPassword = passwordEncoder.encode(request.rawPassword)
 

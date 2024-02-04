@@ -1,12 +1,15 @@
 package com.bclipse.application.application
 
-import com.bclipse.application.application.ApplicationAuthUtil.validateSecretNotExpired
-import com.bclipse.application.application.ApplicationAuthUtil.validateSecretSign
+import com.bclipse.application.application.ApplicationAuthUtil.requireRequestSecretSign
+import com.bclipse.application.application.ApplicationAuthUtil.requireStateSecretNotExpired
 import com.bclipse.application.application.dto.AuthApplicationDto
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.entity.Application
 import com.bclipse.application.application.entity.ApplicationAccessToken
 import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.infra.web.WebPrecondition.checkState
+import com.bclipse.application.infra.web.WebPrecondition.requirePermission
+import com.bclipse.application.infra.web.WebPrecondition.requireRequest
 import com.bclipse.application.server.ServerQueryService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
@@ -24,15 +27,16 @@ class ApplicationAuthService(
 ) {
     fun authorize(dto: AuthApplicationDto): SimpleApplicationAccessTokenDto {
         val application = applicationRepository.findByApplicationId(dto.applicationId)
-        requireNotNull(application) { "applicationId가 잘못되었습니다." } //TODO
+        requireRequest(application != null) { "applicationId가 잘못되었습니다." }
 
         val server = serverQueryService.queryById(application.serverId)
-        checkNotNull(server) { "serverId가 잘못되었습니다. - '${application.serverId}'" } //TODO
+        checkState(server != null) { "serverId가 잘못되었습니다. - '${application.serverId}'" }
 
-        require(dto.requesterId == server.ownerId) { "작업을 요청할 권한이 없습니다. - '${dto.requesterId}'" } //TODO
+        val isOwner = dto.requesterId == server.ownerId
+        requirePermission(isOwner) { "작업을 요청할 권한이 없습니다. - '${dto.requesterId}'" }
 
-        validateSecretNotExpired(application)
-        validateSecretSign(dto, application)
+        requireStateSecretNotExpired(application)
+        requireRequestSecretSign(dto, application)
 
         val token = applicationAccessTokenRepository
             .findByApplicationId(dto.applicationId)

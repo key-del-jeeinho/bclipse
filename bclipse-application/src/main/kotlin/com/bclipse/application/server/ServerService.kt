@@ -1,6 +1,7 @@
 package com.bclipse.application.server
 
 import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.infra.web.WebPrecondition.requireRequest
 import com.bclipse.application.server.dto.CreateServerDto
 import com.bclipse.application.server.dto.ServerDto
 import com.bclipse.application.server.dto.ServerDto.Companion.toDto
@@ -17,7 +18,7 @@ class ServerService(
 ) {
     fun create(request: CreateServerDto): ServerDto {
         val isExistingUser = userQueryService.existsById(request.ownerId)
-        require(isExistingUser) { "존재하지 않는 유저입니다! - '${request.ownerId}'" }
+        requireRequest(isExistingUser) { "존재하지 않는 유저입니다! - '${request.ownerId}'" }
 
         val serverId = Base64UUID.generate()
         val toCreate = Server(
