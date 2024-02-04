@@ -22,12 +22,36 @@ object WebPrecondition {
     }
 
     @OptIn(ExperimentalContracts::class)
+    fun preconditionWeb(
+        value: Boolean,
+        status: HttpStatus,
+        lazyThrowable: Lazy<Throwable>
+    ) {
+        contract {
+            returns() implies value
+        }
+        precondition(value) { WebException(status, lazyThrowable.value) }
+    }
+
+    @OptIn(ExperimentalContracts::class)
+    fun preconditionWeb(
+        value: Boolean,
+        status: HttpStatus,
+        throwableInitializer: () -> Throwable
+    ) {
+        contract {
+            returns() implies value
+        }
+        preconditionWeb(value, status, lazy(throwableInitializer))
+    }
+
+    @OptIn(ExperimentalContracts::class)
     fun requireRequest(value: Boolean, lazyMessage: Lazy<String>) {
         contract {
             returns() implies value
         }
-        precondition(value) {
-            WebException(HttpStatus.BAD_REQUEST, IllegalArgumentException(lazyMessage.value))
+        preconditionWeb(value, HttpStatus.BAD_REQUEST) {
+            IllegalArgumentException(lazyMessage.value)
         }
     }
 
@@ -44,8 +68,8 @@ object WebPrecondition {
         contract {
             returns() implies value
         }
-        precondition(value) {
-            WebException(HttpStatus.CONFLICT, IllegalStateException(lazyMessage.value))
+        preconditionWeb(value, HttpStatus.CONFLICT) {
+            IllegalStateException(lazyMessage.value)
         }
     }
 
@@ -62,7 +86,9 @@ object WebPrecondition {
         contract {
             returns() implies value
         }
-        precondition(value) { WebException(HttpStatus.INTERNAL_SERVER_ERROR, IllegalStateException(lazyMessage.value)) }
+        preconditionWeb(value, HttpStatus.INTERNAL_SERVER_ERROR) {
+            IllegalStateException(lazyMessage.value)
+        }
     }
 
     @OptIn(ExperimentalContracts::class)
@@ -78,7 +104,9 @@ object WebPrecondition {
         contract {
             returns() implies value
         }
-        precondition(value) { WebException(HttpStatus.FORBIDDEN, IllegalAccessException(lazyMessage.value)) }
+        preconditionWeb(value, HttpStatus.FORBIDDEN) {
+            IllegalAccessException(lazyMessage.value)
+        }
     }
 
     @OptIn(ExperimentalContracts::class)

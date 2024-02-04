@@ -9,7 +9,15 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: alpha
+server:
+  domain: localhost
 spring:
+  security:
+    jwt:
+      secret: ca3dea59-fb95-4796-967f-81bb18e5b3ad
+    login:
+      access-token.ttl-second: 14400 #4 Hours
+      refresh-token.ttl-second: 86400 #1 Day
   data:
     mongodb:
       uri: mongodb://localhost:27027/bclipse-application
