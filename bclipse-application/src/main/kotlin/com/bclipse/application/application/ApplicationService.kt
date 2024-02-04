@@ -21,8 +21,9 @@ class ApplicationService(
 ) {
     fun create(dto: CreateApplicationDto): UnsecuredApplicationDto {
         val serverId = Base64UUID.fromEncodedString(dto.serverId)
-        serverQueryService.queryById(serverId)
+        val server = serverQueryService.queryById(serverId)
             ?: throw RuntimeException("server를 찾을 수 없습니다. - '${dto.serverId}") //TODO
+        require(dto.requesterId == server.ownerId) { "작업을 요청할 권한이 없습니다. - '${dto.requesterId}'" } //TODO
 
         val applicationId = Base64UUID.generate()
         val applicationSecret = BCryptHash.generate()

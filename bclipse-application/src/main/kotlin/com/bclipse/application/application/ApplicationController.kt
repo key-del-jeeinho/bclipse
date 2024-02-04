@@ -1,9 +1,10 @@
 package com.bclipse.application.application
 
-import com.bclipse.application.application.dto.AuthApplicationDto
-import com.bclipse.application.application.dto.CreateApplicationDto
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
+import com.bclipse.application.application.request.AuthApplicationRequest
+import com.bclipse.application.application.request.CreateApplicationRequest
+import com.bclipse.application.user.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -22,9 +23,13 @@ class ApplicationController(
     @Operation(summary = "어플리케이션 생성")
     @PostMapping
     fun create(
-        @RequestBody request: CreateApplicationDto,
+        @RequestBody request: CreateApplicationRequest,
     ): ResponseEntity<UnsecuredApplicationDto> {
-        val result = applicationService.create(request)
+        val requesterId = queryCurrentUserId()
+        val dto = request.toDto(requesterId)
+
+        val result = applicationService.create(dto)
+
         return ResponseEntity.ok(result)
     }
 
@@ -35,9 +40,13 @@ class ApplicationController(
     @Operation(summary = "어플리케이션 인증토큰 발급/갱신")
     @PostMapping("/auth/token")
     fun authorize(
-        @RequestBody request: AuthApplicationDto,
+        @RequestBody request: AuthApplicationRequest,
     ): ResponseEntity<SimpleApplicationAccessTokenDto> {
-        val result = applicationAuthService.authorize(request)
+        val requesterId = queryCurrentUserId()
+        val dto = request.toDto(requesterId)
+
+        val result = applicationAuthService.authorize(dto)
+
         return ResponseEntity.ok(result)
     }
 }
