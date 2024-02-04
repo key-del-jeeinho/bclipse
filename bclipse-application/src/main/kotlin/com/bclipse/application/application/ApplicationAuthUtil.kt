@@ -23,6 +23,6 @@ object ApplicationAuthUtil {
      fun validateSecretNotExpired(application: Application) {
          val now = ZonedDateTime.now()
          val isExpired = application.secretExpireAt.isBefore(now)
-         if(isExpired) throw java.lang.RuntimeException("어플리케이션의 시크릿 키가 만료되었습니다.") //TODO
+         if(isExpired) throw RuntimeException("어플리케이션의 시크릿 키가 만료되었습니다.") //TODO
     }
 }
