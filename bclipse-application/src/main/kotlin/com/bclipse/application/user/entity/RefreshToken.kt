@@ -10,7 +10,7 @@ import java.time.ZonedDateTime
 class RefreshToken (
     @Id val id: ObjectId,
     @Indexed(unique = true)
-    val refreshToken: String,
+    val token: String,
     val userId: String,
     @Indexed(expireAfterSeconds = 0)
     val expireAt: ZonedDateTime,

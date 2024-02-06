@@ -1,20 +1,17 @@
 package com.bclipse.application.user
 
+import com.bclipse.application.user.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
 import com.bclipse.application.user.dto.LoginUserDto
+import com.bclipse.application.user.dto.RefreshUserLoginDto
 import com.bclipse.application.user.dto.SecuredUserDto
 import com.bclipse.application.user.dto.SignupUserDto
 import com.bclipse.application.user.response.AccessTokenResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
-import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @Tag(name = "User API")
@@ -37,19 +34,33 @@ class UserController(
     @PostMapping("/login")
     fun login(
         @RequestBody request: LoginUserDto,
-        response: HttpServletResponse,
     ): ResponseEntity<AccessTokenResponse> {
         val result = userService.login(request)
-        val refreshToken = result.refreshToken
 
-        val cookie = ResponseCookie
-            .from("refreshToken", refreshToken.refreshToken.value)
-            .httpOnly(true)
-            .secure(true)
-            .path("/")
-            .maxAge(refreshToken.expireInSecond)
-            .domain(serverDomain)
-            .build()
+        val cookie = result.refreshToken.toHttpOnlySecuredCookie(
+            domain = serverDomain,
+            path = "/",
+        )
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .body(AccessTokenResponse(result.accessToken))
+    }
+
+    @Operation(summary = "유저 로그인 갱신")
+    @PostMapping("/refresh-login")
+    fun login(
+        @CookieValue ("refreshToken")
+        refreshToken: String
+    ): ResponseEntity<AccessTokenResponse> {
+        val result = userService.refreshLogin(
+            RefreshUserLoginDto(refreshToken)
+        )
+
+        val cookie = result.refreshToken.toHttpOnlySecuredCookie(
+            domain = serverDomain,
+            path = "/",
+        )
 
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, cookie.toString())

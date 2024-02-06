@@ -21,15 +21,21 @@ class RefreshTokenStore(
 
         val toCreate = RefreshToken(
             id = ObjectId(),
-            refreshToken = generated.value,
+            token = generated.value,
             userId = userId,
             expireAt = expireAt,
         )
         refreshTokenRepository.save(toCreate)
 
         return RefreshTokenDto(
-            refreshToken = generated,
+            token = generated,
             expireInSecond = refreshTokenTtlSecond
         )
+    }
+
+    fun getAndDelete(refreshTokenString: String): RefreshToken? {
+        val refreshToken = refreshTokenRepository.findByToken(refreshTokenString) ?: return null
+        refreshTokenRepository.deleteById(refreshToken.id)
+        return refreshToken
     }
 }

@@ -1,11 +1,8 @@
 package com.bclipse.application.user
 
 import com.bclipse.application.infra.web.WebPrecondition.requireRequest
-import com.bclipse.application.user.dto.LoginTokenDto
-import com.bclipse.application.user.dto.LoginUserDto
-import com.bclipse.application.user.dto.SecuredUserDto
+import com.bclipse.application.user.dto.*
 import com.bclipse.application.user.dto.SecuredUserDto.Companion.toSecuredDto
-import com.bclipse.application.user.dto.SignupUserDto
 import com.bclipse.application.user.entity.User
 import org.bson.types.ObjectId
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -56,6 +53,25 @@ class UserService(
         return LoginTokenDto(
             accessToken = accessToken,
             refreshToken = refreshToken,
+        )
+    }
+
+    fun refreshLogin(request: RefreshUserLoginDto): LoginTokenDto {
+        val lazyMessage = lazy { "로그인 정보를 갱신할 수 없습니다. 다시 로그인해주세요." }
+
+        val refreshToken = refreshTokenStore.getAndDelete(request.refreshToken)
+        requireRequest(refreshToken != null, lazyMessage)
+
+        val user = userRepository.findByUserId(refreshToken.userId)
+        requireRequest(user != null, lazyMessage)
+
+        val securedUser = user.toSecuredDto()
+        val newAccessToken = accessTokenEncoder.encode(securedUser)
+        val newRefreshToken = refreshTokenStore.generate(securedUser.id)
+
+        return LoginTokenDto(
+            accessToken = newAccessToken,
+            refreshToken = newRefreshToken
         )
     }
 }

@@ -8,6 +8,10 @@ data class LoginTokenDto(
 )
 
 data class RefreshTokenDto(
-    val refreshToken: Base64UUID,
+    val token: Base64UUID,
     val expireInSecond: Long,
-)
+) {
+    companion object {
+        const val COOKIE_NAME = "refreshToken"
+    }
+}
