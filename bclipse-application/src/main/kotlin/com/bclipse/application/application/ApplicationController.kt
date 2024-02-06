@@ -8,10 +8,7 @@ import com.bclipse.application.user.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @Tag(name = "Application API")
@@ -38,12 +35,16 @@ class ApplicationController(
     //어플리케이션 시크릿 변경
 
     @Operation(summary = "어플리케이션 인증토큰 발급/갱신")
-    @PostMapping("/auth/token")
+    @PostMapping("/{applicationId}/auth-token")
     fun authorize(
         @RequestBody request: AuthApplicationRequest,
+        @PathVariable("applicationId") applicationId: String
     ): ResponseEntity<SimpleApplicationAccessTokenDto> {
         val requesterId = queryCurrentUserId()
-        val dto = request.toDto(requesterId)
+        val dto = request.toDto(
+            requesterId = requesterId,
+            applicationId = applicationId
+        )
 
         val result = applicationAuthService.authorize(dto)
 
