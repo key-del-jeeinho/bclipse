@@ -18,5 +18,12 @@ class Application(
     var createdAt: ZonedDateTime,
     val secretUpdatedAt: ZonedDateTime,
     val secretExpireAt: ZonedDateTime,
+    setting: ApplicationSetting,
 ) {
+    var setting = setting
+        private set
+
+    fun updateSetting(newSetting: ApplicationSetting) {
+        setting = newSetting
+    }
 }

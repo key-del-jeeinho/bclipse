@@ -4,6 +4,7 @@ import com.bclipse.application.application.dto.CreateApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.application.application.entity.Application
+import com.bclipse.application.application.entity.ApplicationSetting
 import com.bclipse.application.common.domain.BCryptHash
 import com.bclipse.application.common.domain.Base64UUID
 import com.bclipse.application.infra.web.WebException
@@ -46,7 +47,8 @@ class ApplicationService(
             serverId = serverId,
             createdAt = now,
             secretUpdatedAt = now,
-            secretExpireAt = secretExpireAt
+            secretExpireAt = secretExpireAt,
+            setting = ApplicationSetting.DEFAULT,
         )
 
         val application = applicationRepository.save(toCreate)

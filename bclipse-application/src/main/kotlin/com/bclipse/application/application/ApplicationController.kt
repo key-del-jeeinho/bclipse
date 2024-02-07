@@ -2,6 +2,7 @@ package com.bclipse.application.application
 
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
+import com.bclipse.application.application.request.AddPluginRequest
 import com.bclipse.application.application.request.AuthApplicationRequest
 import com.bclipse.application.application.request.CreateApplicationRequest
 import com.bclipse.application.user.DefaultUser.queryCurrentUserId
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 class ApplicationController(
     private val applicationService: ApplicationService,
     private val applicationAuthService: ApplicationAuthService,
+    private val applicationSettingService: ApplicationSettingService,
 ) {
     @Operation(summary = "어플리케이션 생성")
     @PostMapping
@@ -47,6 +49,23 @@ class ApplicationController(
         )
 
         val result = applicationAuthService.authorize(dto)
+
+        return ResponseEntity.ok(result)
+    }
+
+    @Operation(summary = "플러그인 추가")
+    @PostMapping("/{applicationId}/setting/version")
+    fun addPlugin(
+        @RequestBody request: AddPluginRequest,
+        @PathVariable("applicationId") applicationId: String,
+    ): ResponseEntity<UnsecuredApplicationDto> {
+        val requesterId = queryCurrentUserId()
+        val dto = request.toDto(
+            requesterId = requesterId,
+            applicationId = applicationId,
+        )
+
+        val result = applicationSettingService.addPlugin(dto)
 
         return ResponseEntity.ok(result)
     }
