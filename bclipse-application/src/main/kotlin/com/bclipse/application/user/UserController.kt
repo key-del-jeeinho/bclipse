@@ -1,11 +1,11 @@
 package com.bclipse.application.user
 
-import com.bclipse.application.user.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
+import com.bclipse.application.user.util.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
 import com.bclipse.application.user.dto.LoginUserDto
 import com.bclipse.application.user.dto.RefreshUserLoginDto
 import com.bclipse.application.user.dto.SecuredUserDto
 import com.bclipse.application.user.dto.SignupUserDto
-import com.bclipse.application.user.response.AccessTokenResponse
+import com.bclipse.application.user.dto.response.AccessTokenResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Value

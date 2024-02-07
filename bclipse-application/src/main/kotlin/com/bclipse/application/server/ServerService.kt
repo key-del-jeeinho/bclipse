@@ -1,11 +1,12 @@
 package com.bclipse.application.server
 
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.Base64UUID
 import com.bclipse.application.infra.web.WebPrecondition.requireRequest
 import com.bclipse.application.server.dto.CreateServerDto
 import com.bclipse.application.server.dto.ServerDto
 import com.bclipse.application.server.dto.ServerDto.Companion.toDto
 import com.bclipse.application.server.entity.Server
+import com.bclipse.application.server.repository.ServerRepository
 import com.bclipse.application.user.UserQueryService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service

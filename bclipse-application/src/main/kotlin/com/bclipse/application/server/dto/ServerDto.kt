@@ -1,6 +1,6 @@
 package com.bclipse.application.server.dto
 
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.Base64UUID
 import com.bclipse.application.server.entity.Server
 import java.time.ZonedDateTime
 

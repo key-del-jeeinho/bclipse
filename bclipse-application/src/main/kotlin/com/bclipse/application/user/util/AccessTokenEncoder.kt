@@ -1,4 +1,4 @@
-package com.bclipse.application.user
+package com.bclipse.application.user.util
 
 import com.bclipse.application.infra.web.WebException
 import com.bclipse.application.infra.web.WebPrecondition.preconditionWeb

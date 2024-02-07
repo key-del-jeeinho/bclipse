@@ -1,6 +1,6 @@
-package com.bclipse.application.application
+package com.bclipse.application.application.util
 
-import com.bclipse.application.application.domain.ApplicationSecretSign
+import com.bclipse.application.application.entity.ApplicationSecretSign
 import com.bclipse.application.application.dto.AuthApplicationDto
 import com.bclipse.application.application.entity.Application
 import com.bclipse.application.infra.web.WebPrecondition.requireRequest

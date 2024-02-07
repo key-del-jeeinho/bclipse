@@ -1,4 +1,4 @@
-package com.bclipse.application.common.domain
+package com.bclipse.application.common.entity
 
 import com.bclipse.application.infra.kotlin.LazyPrecondition.require
 import java.nio.ByteBuffer

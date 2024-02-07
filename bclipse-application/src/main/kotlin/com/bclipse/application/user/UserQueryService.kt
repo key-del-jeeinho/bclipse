@@ -1,5 +1,7 @@
 package com.bclipse.application.user
 
+import com.bclipse.application.user.repository.UserRepository
+import com.bclipse.application.user.util.DefaultUser
 import org.springframework.stereotype.Service
 
 @Service

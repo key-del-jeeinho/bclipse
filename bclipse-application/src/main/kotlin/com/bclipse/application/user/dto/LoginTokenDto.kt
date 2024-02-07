@@ -1,6 +1,6 @@
 package com.bclipse.application.user.dto
 
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.Base64UUID
 
 data class LoginTokenDto(
     val accessToken: String,

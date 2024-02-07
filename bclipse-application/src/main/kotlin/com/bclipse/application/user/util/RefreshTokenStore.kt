@@ -1,8 +1,9 @@
-package com.bclipse.application.user
+package com.bclipse.application.user.util
 
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.Base64UUID
 import com.bclipse.application.user.dto.RefreshTokenDto
 import com.bclipse.application.user.entity.RefreshToken
+import com.bclipse.application.user.repository.RefreshTokenRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

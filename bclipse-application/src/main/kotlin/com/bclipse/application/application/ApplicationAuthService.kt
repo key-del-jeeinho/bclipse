@@ -1,12 +1,14 @@
 package com.bclipse.application.application
 
-import com.bclipse.application.application.ApplicationAuthUtil.requireRequestSecretSign
-import com.bclipse.application.application.ApplicationAuthUtil.requireStateSecretNotExpired
+import com.bclipse.application.application.util.ApplicationAuthUtil.requireRequestSecretSign
+import com.bclipse.application.application.util.ApplicationAuthUtil.requireStateSecretNotExpired
 import com.bclipse.application.application.dto.AuthApplicationDto
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.entity.Application
 import com.bclipse.application.application.entity.ApplicationAccessToken
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.application.repository.ApplicationAccessTokenRepository
+import com.bclipse.application.application.repository.ApplicationRepository
+import com.bclipse.application.common.entity.Base64UUID
 import com.bclipse.application.infra.web.WebPrecondition.checkState
 import com.bclipse.application.infra.web.WebPrecondition.requirePermission
 import com.bclipse.application.infra.web.WebPrecondition.requireRequest

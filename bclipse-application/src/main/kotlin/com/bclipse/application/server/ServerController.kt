@@ -1,8 +1,8 @@
 package com.bclipse.application.server
 
 import com.bclipse.application.server.dto.ServerDto
-import com.bclipse.application.server.request.CreateServerRequest
-import com.bclipse.application.user.DefaultUser.queryCurrentUserId
+import com.bclipse.application.server.dto.request.CreateServerRequest
+import com.bclipse.application.user.util.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity

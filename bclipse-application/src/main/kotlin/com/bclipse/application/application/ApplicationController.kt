@@ -2,10 +2,10 @@ package com.bclipse.application.application
 
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
-import com.bclipse.application.application.request.AddPluginRequest
-import com.bclipse.application.application.request.AuthApplicationRequest
-import com.bclipse.application.application.request.CreateApplicationRequest
-import com.bclipse.application.user.DefaultUser.queryCurrentUserId
+import com.bclipse.application.application.dto.request.AddPluginRequest
+import com.bclipse.application.application.dto.request.AuthApplicationRequest
+import com.bclipse.application.application.dto.request.CreateApplicationRequest
+import com.bclipse.application.user.util.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity

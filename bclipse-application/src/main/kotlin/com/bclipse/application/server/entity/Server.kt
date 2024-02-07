@@ -1,6 +1,6 @@
 package com.bclipse.application.server.entity
 
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.Base64UUID
 import nonapi.io.github.classgraph.json.Id
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.index.Indexed

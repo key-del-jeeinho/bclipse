@@ -5,8 +5,9 @@ import com.bclipse.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.application.application.entity.Application
 import com.bclipse.application.application.entity.ApplicationSetting
-import com.bclipse.application.common.domain.BCryptHash
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.application.repository.ApplicationRepository
+import com.bclipse.application.common.entity.BCryptHash
+import com.bclipse.application.common.entity.Base64UUID
 import com.bclipse.application.infra.web.WebException
 import com.bclipse.application.infra.web.WebPrecondition.requirePermission
 import com.bclipse.application.infra.web.WebPrecondition.requireRequest

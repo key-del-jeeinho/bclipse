@@ -1,4 +1,4 @@
-package com.bclipse.application.user
+package com.bclipse.application.user.util
 
 import com.bclipse.application.user.dto.RefreshTokenDto
 import org.springframework.http.ResponseCookie

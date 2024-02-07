@@ -1,7 +1,7 @@
-package com.bclipse.application.application.domain
+package com.bclipse.application.application.entity
 
-import com.bclipse.application.common.domain.BCryptHash
-import com.bclipse.application.common.domain.Base64UUID
+import com.bclipse.application.common.entity.BCryptHash
+import com.bclipse.application.common.entity.Base64UUID
 import org.springframework.security.crypto.bcrypt.BCrypt
 
 @JvmInline

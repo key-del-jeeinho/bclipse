@@ -4,6 +4,7 @@ import com.bclipse.application.application.dto.AddPluginDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.application.application.entity.PluginMetadata
+import com.bclipse.application.application.repository.ApplicationRepository
 import com.bclipse.application.infra.web.WebPrecondition
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

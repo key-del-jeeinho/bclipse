@@ -1,4 +1,4 @@
-package com.bclipse.application.server
+package com.bclipse.application.server.repository
 
 import com.bclipse.application.server.entity.Server
 import org.bson.types.ObjectId

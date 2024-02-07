@@ -1,4 +1,4 @@
-package com.bclipse.application.application
+package com.bclipse.application.application.repository
 
 import com.bclipse.application.application.entity.ApplicationAccessToken
 import org.bson.types.ObjectId

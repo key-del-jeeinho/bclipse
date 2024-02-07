@@ -1,4 +1,4 @@
-package com.bclipse.application.user
+package com.bclipse.application.user.repository
 
 import com.bclipse.application.user.entity.User
 import org.bson.types.ObjectId

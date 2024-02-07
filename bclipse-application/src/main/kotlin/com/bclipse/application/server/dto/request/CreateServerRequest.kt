@@ -1,4 +1,4 @@
-package com.bclipse.application.server.request
+package com.bclipse.application.server.dto.request
 
 import com.bclipse.application.server.dto.CreateServerDto
 
