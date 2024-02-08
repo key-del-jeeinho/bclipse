@@ -1,11 +1,9 @@
 package com.bclipse.application.user
 
-import com.bclipse.application.user.util.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
-import com.bclipse.application.user.dto.LoginUserDto
-import com.bclipse.application.user.dto.RefreshUserLoginDto
-import com.bclipse.application.user.dto.SecuredUserDto
-import com.bclipse.application.user.dto.SignupUserDto
+import com.bclipse.application.user.dto.*
 import com.bclipse.application.user.dto.response.AccessTokenResponse
+import com.bclipse.application.user.util.DefaultUser.queryCurrentUserId
+import com.bclipse.application.user.util.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Value
@@ -18,9 +16,27 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/user")
 class UserController(
     private val userService: UserService,
+    private val userQueryService: UserQueryService,
     @Value("\${server.domain}")
     private val serverDomain: String,
 ) {
+    @Operation(summary = "내 정보 조회")
+    @GetMapping("/my")
+    fun my(): ResponseEntity<SecuredUserDto> {
+        val userId = queryCurrentUserId()
+        val result = userQueryService.querySecuredById(userId)
+        return ResponseEntity.ok(result)
+    }
+
+    @Operation(summary = "유저 단건 조회")
+    @GetMapping("/{userId}")
+    fun queryById(
+        @PathVariable userId: String,
+    ): ResponseEntity<UserProfileDto> {
+        val result = userQueryService.queryProfileById(userId)
+        return ResponseEntity.ok(result)
+    }
+
     @Operation(summary = "유저 회원가입")
     @PostMapping("/signup")
     fun signup(

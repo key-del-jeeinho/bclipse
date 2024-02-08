@@ -14,5 +14,11 @@ data class SecuredUserDto(
             name = name,
             createdAt = createdAt
         )
+
+        fun User.toProfileDto(): UserProfileDto =UserProfileDto(
+            id = userId,
+            name = name,
+            createdAt = createdAt
+        )
     }
 }
