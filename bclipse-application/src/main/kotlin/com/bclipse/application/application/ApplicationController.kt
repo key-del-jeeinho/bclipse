@@ -1,5 +1,7 @@
 package com.bclipse.application.application
 
+import com.bclipse.application.application.dto.ApplicationDetailDto
+import com.bclipse.application.application.dto.QueryApplicationDto
 import com.bclipse.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.application.application.dto.request.AddPluginRequest
@@ -16,9 +18,26 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/applications")
 class ApplicationController(
     private val applicationService: ApplicationService,
+    private val applicationQueryService: ApplicationQueryService,
     private val applicationAuthService: ApplicationAuthService,
     private val applicationSettingService: ApplicationSettingService,
 ) {
+    @Operation(summary = "어플리케이션 단건 조회")
+    @GetMapping("/{applicationId}")
+    fun queryById(
+        @PathVariable applicationId: String
+    ): ResponseEntity<ApplicationDetailDto> {
+        val currentUserId = queryCurrentUserId()
+        val dto = QueryApplicationDto(
+            applicationId = applicationId,
+            userId = currentUserId,
+        )
+
+        val result = applicationQueryService.queryById(dto)
+
+        return ResponseEntity.ok(result)
+    }
+
     @Operation(summary = "어플리케이션 생성")
     @PostMapping
     fun create(
