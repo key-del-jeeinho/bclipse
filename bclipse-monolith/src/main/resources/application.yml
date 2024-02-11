@@ -25,6 +25,19 @@ spring:
       uri: mongodb://localhost:27027/bclipse-application
       uuid-representation: standard
       auto-index-creation: true
+  cloud:
+    aws:
+      credentials:
+        access-key: ${secret.AWS_ACCESS_KEY}
+        secret-key: ${secret.AWS_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        plugin-repository:
+          bucket: bclipse.repository.plugin
+          pre-signed-url:
+            upload.expire-in-second: 300
+            download.expire-in-second: 300
 logging:
   level:
     org.mongodb.driver.cluster: warn

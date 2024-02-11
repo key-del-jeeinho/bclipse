@@ -10,6 +10,7 @@ plugins {
 
 group = "com.bclipse"
 version = "0.0.1-SNAPSHOT"
+val springCloudAwsVersion: String by project
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -20,9 +21,11 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
