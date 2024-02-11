@@ -62,7 +62,7 @@ class UserService(
     fun refreshLogin(request: RefreshUserLoginDto): LoginTokenDto {
         val lazyMessage = lazy { "로그인 정보를 갱신할 수 없습니다. 다시 로그인해주세요." }
 
-        val refreshToken = refreshTokenStore.getAndDelete(request.refreshToken)
+        val refreshToken = refreshTokenStore.findByTokenAndDelete(request.refreshToken)
         requireRequest(refreshToken != null, lazyMessage)
 
         val user = userRepository.findByUserId(refreshToken.userId)

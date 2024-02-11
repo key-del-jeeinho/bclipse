@@ -34,7 +34,7 @@ class RefreshTokenStore(
         )
     }
 
-    fun getAndDelete(refreshTokenString: String): RefreshToken? {
+    fun findByTokenAndDelete(refreshTokenString: String): RefreshToken? {
         val refreshToken = refreshTokenRepository.findByToken(refreshTokenString) ?: return null
         refreshTokenRepository.deleteById(refreshToken.id)
         return refreshToken
