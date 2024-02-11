@@ -4,6 +4,8 @@ import com.bclipse.application.infra.web.WebPrecondition.preconditionWeb
 import com.bclipse.application.user.dto.SecuredUserDto
 import com.bclipse.application.user.dto.SecuredUserDto.Companion.toProfileDto
 import com.bclipse.application.user.dto.SecuredUserDto.Companion.toSecuredDto
+import com.bclipse.application.user.dto.UserDto
+import com.bclipse.application.user.dto.UserDto.Companion.toDto
 import com.bclipse.application.user.dto.UserProfileDto
 import com.bclipse.application.user.entity.User
 import com.bclipse.application.user.repository.UserRepository
@@ -21,19 +23,25 @@ class UserQueryService(
         return userRepository.existsByUserId(userId)
     }
 
+    fun queryById(userId: String): UserDto {
+        //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
+        if(userId == DefaultUser.userId) return DefaultUser.toDto()
+        return queryEntityById(userId).toDto()
+    }
+
     fun querySecuredById(userId: String): SecuredUserDto {
         //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
         if(userId == DefaultUser.userId) return DefaultUser.toSecuredDto()
-        return queryById(userId).toSecuredDto()
+        return queryEntityById(userId).toSecuredDto()
     }
 
     fun queryProfileById(userId: String): UserProfileDto {
         //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
         if(userId == DefaultUser.userId) return DefaultUser. toProfileDto()
-        return queryById(userId).toProfileDto()
+        return queryEntityById(userId).toProfileDto()
     }
 
-    private fun queryById(userId: String): User {
+    private fun queryEntityById(userId: String): User {
         val user = userRepository.findByUserId(userId)
 
         preconditionWeb(user != null, HttpStatus.NOT_FOUND) { IllegalStateException("유저를 찾을 수 없습니다 - '$userId'") }

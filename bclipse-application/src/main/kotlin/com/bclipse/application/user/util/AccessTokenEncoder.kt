@@ -14,6 +14,7 @@ import java.time.ZonedDateTime
 import java.util.*
 
 private const val ACCESS_TOKEN_SUBJECT = "bclipse-access-token"
+private const val USER_ID_CLAIM_KEY = "id"
 
 @Component
 class AccessTokenEncoder(
@@ -25,7 +26,7 @@ class AccessTokenEncoder(
     fun encode(user: SecuredUserDto): String =
         Jwts.builder()
             .setSubject(ACCESS_TOKEN_SUBJECT)
-            .addClaims(mapOf("id" to user.id))
+            .addClaims(mapOf(USER_ID_CLAIM_KEY to user.id))
             .setIssuedAt(Date.from(
                 ZonedDateTime.now().toInstant()
             )).setExpiration(Date.from(
@@ -39,6 +40,7 @@ class AccessTokenEncoder(
                 ),
                 SignatureAlgorithm.HS256,
             ).compact()
+
     fun decodeToUserId(accessToken: String): String {
         val lazyMessage = lazy { "잘못된 권한정보입니다." }
         return runCatching {
@@ -55,7 +57,7 @@ class AccessTokenEncoder(
                     preconditionWeb(isRightSubject, HttpStatus.UNAUTHORIZED) {
                         IllegalArgumentException(lazyMessage.value)
                     }
-                    body["id", String::class.java]
+                    body[USER_ID_CLAIM_KEY, String::class.java]
                 }
         }.getOrElse { cause ->
             throw WebException(HttpStatus.UNAUTHORIZED, lazyMessage.value, cause)

@@ -1,6 +1,7 @@
 package com.bclipse.application.user.util
 
 import com.bclipse.application.user.dto.SecuredUserDto
+import com.bclipse.application.user.dto.UserDto
 import com.bclipse.application.user.dto.UserProfileDto
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -26,6 +27,13 @@ object DefaultUser {
     fun toProfileDto(): UserProfileDto = UserProfileDto(
         id = userId,
         name = name,
+        createdAt = createdAt,
+    )
+
+    fun toDto(): UserDto = UserDto(
+        id = userId,
+        name = name,
+        encodedPassword = encodedPassword,
         createdAt = createdAt,
     )
 }
