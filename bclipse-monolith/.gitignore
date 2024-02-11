@@ -41,3 +41,6 @@ out/
 
 ### docker ###
 docker
+
+### Spring Boot ###
+application-secret.yml

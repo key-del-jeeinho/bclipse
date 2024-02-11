@@ -12,6 +12,8 @@ springdoc:
 server:
   domain: localhost
 spring:
+  profiles:
+    include: secret
   security:
     jwt:
       secret: ca3dea59-fb95-4796-967f-81bb18e5b3ad
