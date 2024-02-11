@@ -1,13 +1,14 @@
 package com.bclipse.application.server
 
 import com.bclipse.application.common.entity.Base64UUID
+import com.bclipse.application.infra.security.UserDetailsAdapter
 import com.bclipse.application.server.dto.QueryServerDto
 import com.bclipse.application.server.dto.ServerDto
 import com.bclipse.application.server.dto.request.CreateServerRequest
-import com.bclipse.application.user.util.DefaultUser.queryCurrentUserId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -21,11 +22,11 @@ class ServerController(
     @GetMapping("/{serverId}")
     fun queryById(
         @PathVariable serverId: String,
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
     ): ResponseEntity<ServerDto> {
-        val currentUserId = queryCurrentUserId()
         val dto = QueryServerDto(
             serverId = Base64UUID.fromEncodedString(serverId),
-            userId = currentUserId
+            userId = userDetail.userId,
         )
         val result = serverQueryService.queryById(dto)
         return ResponseEntity.ok(result)
@@ -33,9 +34,10 @@ class ServerController(
 
     @Operation(summary = "내 서버 목록 조회")
     @GetMapping("/my")
-    fun my(): ResponseEntity<List<ServerDto>> {
-        val currentUserId = queryCurrentUserId()
-        val result = serverQueryService.queryByOwnerId(currentUserId)
+    fun my(
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
+    ): ResponseEntity<List<ServerDto>> {
+        val result = serverQueryService.queryByOwnerId(userDetail.userId)
         return ResponseEntity.ok(result)
     }
 
@@ -43,9 +45,9 @@ class ServerController(
     @PostMapping
     fun create(
         @RequestBody request: CreateServerRequest,
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
     ): ResponseEntity<ServerDto> {
-        val currentUserId = queryCurrentUserId()
-        val dto = request.toDto(currentUserId)
+        val dto = request.toDto(userDetail.userId)
 
         val result = serverService.create(dto)
 

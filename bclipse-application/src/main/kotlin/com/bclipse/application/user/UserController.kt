@@ -1,14 +1,15 @@
 package com.bclipse.application.user
 
+import com.bclipse.application.infra.security.UserDetailsAdapter
 import com.bclipse.application.user.dto.*
 import com.bclipse.application.user.dto.response.AccessTokenResponse
-import com.bclipse.application.user.util.DefaultUser.queryCurrentUserId
 import com.bclipse.application.user.util.RefreshTokenCookieUtil.toHttpOnlySecuredCookie
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -22,9 +23,10 @@ class UserController(
 ) {
     @Operation(summary = "내 정보 조회")
     @GetMapping("/my")
-    fun my(): ResponseEntity<SecuredUserDto> {
-        val userId = queryCurrentUserId()
-        val result = userQueryService.querySecuredById(userId)
+    fun my(
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
+    ): ResponseEntity<SecuredUserDto> {
+        val result = userQueryService.querySecuredById(userDetail.userId)
         return ResponseEntity.ok(result)
     }
 

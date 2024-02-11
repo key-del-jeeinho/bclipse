@@ -9,7 +9,6 @@ import com.bclipse.application.user.dto.UserDto.Companion.toDto
 import com.bclipse.application.user.dto.UserProfileDto
 import com.bclipse.application.user.entity.User
 import com.bclipse.application.user.repository.UserRepository
-import com.bclipse.application.user.util.DefaultUser
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -17,29 +16,17 @@ import org.springframework.stereotype.Service
 class UserQueryService(
     private val userRepository: UserRepository,
 ) {
-    fun existsById(userId: String): Boolean {
-        //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
-        if(userId == DefaultUser.userId) return true
-        return userRepository.existsByUserId(userId)
-    }
+    fun existsById(userId: String): Boolean =
+        userRepository.existsByUserId(userId)
 
-    fun queryById(userId: String): UserDto {
-        //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
-        if(userId == DefaultUser.userId) return DefaultUser.toDto()
-        return queryEntityById(userId).toDto()
-    }
+    fun queryById(userId: String): UserDto =
+        queryEntityById(userId).toDto()
 
-    fun querySecuredById(userId: String): SecuredUserDto {
-        //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
-        if(userId == DefaultUser.userId) return DefaultUser.toSecuredDto()
-        return queryEntityById(userId).toSecuredDto()
-    }
+    fun querySecuredById(userId: String): SecuredUserDto =
+        queryEntityById(userId).toSecuredDto()
 
-    fun queryProfileById(userId: String): UserProfileDto {
-        //TODO 추후 user 관련 로직 고도화 후 수정예정입니다.
-        if(userId == DefaultUser.userId) return DefaultUser. toProfileDto()
-        return queryEntityById(userId).toProfileDto()
-    }
+    fun queryProfileById(userId: String): UserProfileDto =
+        queryEntityById(userId).toProfileDto()
 
     private fun queryEntityById(userId: String): User {
         val user = userRepository.findByUserId(userId)
