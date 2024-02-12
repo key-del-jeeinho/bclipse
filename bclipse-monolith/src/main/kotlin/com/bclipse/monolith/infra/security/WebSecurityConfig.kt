@@ -1,7 +1,7 @@
 package com.bclipse.monolith.infra.security
 
-import com.bclipse.monolith.infra.web.ExceptionHandlerFilter
 import com.bclipse.monolith.application.user.util.AccessTokenEncoder
+import com.bclipse.monolith.infra.web.ExceptionHandlerFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -33,6 +33,16 @@ class WebSecurityConfig(
                         allowCredentials = true
                     }
                 }
+            }.authorizeHttpRequests {
+                it.requestMatchers(
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                ).permitAll()
+                it.requestMatchers(
+                    "/api/v1/user/login",
+                    "/api/v1/user/refresh-login"
+                ).permitAll()
+                it.requestMatchers("/api/v1/**").authenticated()
             }.sessionManagement{
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }.addFilterBefore(UserAuthenticationFilter(accessTokenEncoder, userDetailsService), UsernamePasswordAuthenticationFilter::class.java)
