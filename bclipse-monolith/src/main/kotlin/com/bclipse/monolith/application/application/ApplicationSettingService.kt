@@ -5,7 +5,9 @@ import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.monolith.application.application.entity.PluginMetadata
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
-import com.bclipse.monolith.infra.web.WebPrecondition
+import com.bclipse.monolith.application.plugin.PluginQueryService
+import com.bclipse.monolith.application.plugin.entity.PluginVersion
+import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,15 +15,22 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ApplicationSettingService(
     private val applicationRepository: ApplicationRepository,
+    private val pluginQueryService: PluginQueryService,
 ) {
     fun addPlugin(dto: AddPluginDto): UnsecuredApplicationDto {
         val application = applicationRepository.findByApplicationId(dto.applicationId)
-        WebPrecondition.requireRequest(application != null) { "applicationId가 잘못되었습니다." }
+        requireRequest(application != null) { "applicationId가 잘못되었습니다." }
+
+        val version = PluginVersion.from(dto.version)
+        val hashId = version.getHashId(dto.pluginId)
+
+        val pluginExists = pluginQueryService.existsByHashId(hashId)
+        requireRequest(pluginExists) { "version이 잘못되었습니다." }
 
         val plugins = application.setting.plugins.toMutableMap()
         plugins[dto.pluginId] = PluginMetadata(
             pluginId = dto.pluginId,
-            version = dto.version,
+            hashId = hashId,
         )
 
         val newSetting = application.setting.copy(plugins = plugins)
