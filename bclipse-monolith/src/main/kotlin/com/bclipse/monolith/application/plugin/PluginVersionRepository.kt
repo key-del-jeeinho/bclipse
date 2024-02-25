@@ -7,4 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 interface PluginVersionRepository: MongoRepository<PluginVersionDocument, ObjectId> {
     fun existsByHashId(hashId: String): Boolean
     fun deleteByHashId(hashId: String)
+    fun findAllByPluginId(pluginId: String): List<PluginVersionDocument>
 }

@@ -33,4 +33,13 @@ class PluginVersionDocument(
                 fixDigit = fixDigit,
             )
     }
+
+    fun toEntity(): PluginVersion =
+        PluginVersion(
+            majorDigit = majorDigit,
+            minorDigit = minorDigit,
+            patchDigit = patchDigit,
+            type = type,
+            fixDigit = fixDigit,
+        )
 }

@@ -8,8 +8,8 @@ data class PluginVersion (
     val minorDigit: Int,
     val patchDigit: Int,
     val type: VersionType,
-    val fixDigit: Int // "1.2.3r4" -> 4
-) {
+    val fixDigit: Int // "1.2.3-r4" -> 4
+): Comparable<PluginVersion> {
     fun getHashId(pluginId: String): String {
         val uniqueKey = toString() + pluginId
         val hash = MessageDigest.getInstance("SHA-256")
@@ -18,6 +18,16 @@ data class PluginVersion (
     }
 
     override fun toString(): String = "${majorDigit}.${minorDigit}.${patchDigit}-${type.displayString}${fixDigit}"
+
+    override fun compareTo(other: PluginVersion): Int {
+        val compareMajor = majorDigit.compareTo(other.majorDigit)
+        if(compareMajor != 0 ) return compareMajor
+
+        val compareMinor = minorDigit.compareTo(other.minorDigit)
+        if(compareMinor != 0) return compareMinor
+
+        return patchDigit.compareTo(other.patchDigit)
+    }
 
     companion object {
         private val PATTERN = """^(\d+)\.(\d+)\.(\d+)-(\D+)(\d+)$""".toRegex()
