@@ -39,6 +39,7 @@ class WebSecurityConfig(
                     "/swagger-ui/**",
                 ).permitAll()
                 it.requestMatchers(
+                    "/api/v1/user/signup",
                     "/api/v1/user/login",
                     "/api/v1/user/refresh-login"
                 ).permitAll()
