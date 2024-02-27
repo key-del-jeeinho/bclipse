@@ -29,6 +29,9 @@ data class PluginVersion (
         return patchDigit.compareTo(other.patchDigit)
     }
 
+    fun toStringWithPluginId(pluginId: String): String =
+        String.format("%s:%s", pluginId, toString())
+
     companion object {
         private val PATTERN = """^(\d+)\.(\d+)\.(\d+)-(\D+)(\d+)$""".toRegex()
 

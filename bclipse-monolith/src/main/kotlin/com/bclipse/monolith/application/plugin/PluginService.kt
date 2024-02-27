@@ -1,12 +1,10 @@
 package com.bclipse.monolith.application.plugin
 
-import com.bclipse.monolith.application.plugin.dto.CreatePluginDto
-import com.bclipse.monolith.application.plugin.dto.CreatePluginUrlDto
-import com.bclipse.monolith.application.plugin.dto.PluginDto
+import com.bclipse.monolith.application.plugin.dto.*
 import com.bclipse.monolith.application.plugin.dto.PluginDto.Companion.toDto
-import com.bclipse.monolith.application.plugin.dto.PluginUrlDto
 import com.bclipse.monolith.application.plugin.entity.Plugin
 import com.bclipse.monolith.application.plugin.entity.PluginVersion
+import com.bclipse.monolith.application.plugin.entity.PluginVersionUploadRequest
 import com.bclipse.monolith.application.plugin.entity.document.PluginVersionDocument.Companion.toDocument
 import com.bclipse.monolith.application.plugin.s3.PluginS3Repository
 import com.bclipse.monolith.infra.web.WebException
@@ -20,6 +18,7 @@ import java.time.ZonedDateTime
 class PluginService(
     private val pluginS3Repository: PluginS3Repository,
     private val pluginVersionRepository: PluginVersionRepository,
+    private val pluginVersionUploadRequestRepository: PluginVersionUploadRequestRepository,
     private val pluginRepository: PluginRepository,
 ) {
     fun create(dto: CreatePluginDto): PluginDto {
@@ -45,9 +44,47 @@ class PluginService(
             PluginVersion.from(dto.version)
         }.getOrElse { throwable -> throw WebException(HttpStatus.BAD_REQUEST, throwable) }
 
+        val request = PluginVersionUploadRequest.from(dto, version)
+        pluginVersionUploadRequestRepository.save(request)
+
         checkPluginExists(dto.pluginId, version)
-        createNewVersion(dto.pluginId, version)
-        return pluginS3Repository.createUploadPreSignedUrl(dto)
+        val result = pluginS3Repository.createUploadPreSignedUrl(dto)
+
+        val urlExpireAt = result.expireAt.toEpochSecond()
+        request.updateUrlExpireAt(urlExpireAt)
+        pluginVersionUploadRequestRepository.save(request)
+
+        return result
+    }
+
+    fun syncVersionFromS3ByUploadRequests(now: Long, lastSyncedAt: Long): SyncPluginVersionResultDto {
+        val GAP_MILLIS = 10
+
+        val searched = pluginVersionUploadRequestRepository.findAllByUrlExpireAtIsBetween(
+            min = lastSyncedAt - GAP_MILLIS,
+            now + GAP_MILLIS,
+        )
+
+        if(searched.isEmpty()) return SyncPluginVersionResultDto.empty()
+
+        val target = searched.distinctBy(PluginVersionUploadRequest::version)
+            .filter { request ->
+                pluginS3Repository.existsByPluginIdAndVersion(
+                    request.pluginId,
+                    request.version
+                )
+            }
+
+        val created = target.mapNotNull { request ->
+            val result = createNewVersionIfNotExists(request.pluginId, request.version)
+            if(result != null) request else null
+        }
+
+        return SyncPluginVersionResultDto.from(
+            searched = searched,
+            target = target,
+            created = created,
+        )
     }
 
     fun createDownloadUrl(dto: CreatePluginUrlDto): PluginUrlDto {
@@ -59,9 +96,15 @@ class PluginService(
         return pluginS3Repository.createDownloadPreSignedUrl(dto)
     }
 
-    private fun createNewVersion(pluginId: String, version: PluginVersion) {
+    private fun createNewVersionIfNotExists(pluginId: String, version: PluginVersion): PluginVersion? {
+        val hashId = version.getHashId(pluginId)
+        val isExists = pluginVersionRepository.existsByHashId(hashId)
+        if(isExists) return null
+
         val toCreate = version.toDocument(pluginId)
-        pluginVersionRepository.save(toCreate)
+
+        val document = pluginVersionRepository.save(toCreate)
+        return document.toEntity()
     }
 
     private fun checkPluginExists(pluginId: String, version: PluginVersion) {
