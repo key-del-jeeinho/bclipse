@@ -4,8 +4,8 @@ import com.bclipse.monolith.application.application.dto.ApplicationDetailDto
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto.Companion.toDetailDto
 import com.bclipse.monolith.application.application.dto.QueryApplicationDto
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
-import com.bclipse.monolith.infra.web.WebException
 import com.bclipse.monolith.application.server.ServerQueryService
+import com.bclipse.monolith.infra.web.WebException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -32,4 +32,7 @@ class ApplicationQueryService(
 
         return application.toDetailDto()
     }
+
+    fun existsById(applicationId: String): Boolean =
+        applicationRepository.existsByApplicationId(applicationId)
 }
