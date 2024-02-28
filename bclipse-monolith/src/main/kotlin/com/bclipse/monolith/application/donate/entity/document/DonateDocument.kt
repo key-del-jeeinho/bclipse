@@ -17,5 +17,10 @@ class DonateDocument(
     @Indexed val donorId: String,
     val amount: Int,
     val type: DonateType,
-    val status: DonateStatus,
-)
+    status: DonateStatus,
+) {
+    var status: DonateStatus = status
+        private set
+
+    fun confirm() { status = DonateStatus.CONFIRMED }
+}

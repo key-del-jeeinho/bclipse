@@ -4,4 +4,6 @@ import com.bclipse.monolith.application.donate.entity.document.DonateDocument
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 
-interface DonateRepository: MongoRepository<DonateDocument, ObjectId>
+interface DonateRepository: MongoRepository<DonateDocument, ObjectId> {
+    fun findByDonateId(donateId: String): DonateDocument?
+}
