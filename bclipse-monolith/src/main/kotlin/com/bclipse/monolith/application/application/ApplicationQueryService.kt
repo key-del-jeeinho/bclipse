@@ -14,7 +14,7 @@ class ApplicationQueryService(
     private val applicationRepository: ApplicationRepository,
     private val serverQueryService: ServerQueryService,
 ) {
-    fun queryById(dto: QueryApplicationDto): ApplicationDetailDto {
+    fun accessById(dto: QueryApplicationDto): ApplicationDetailDto {
         val exception = lazy {
             WebException(
                 httpStatus = HttpStatus.NOT_FOUND,

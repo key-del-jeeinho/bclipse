@@ -54,7 +54,7 @@ class DonateService(
         val donate = donateRepository.findByDonateId(dto.donateId)
         WebPrecondition.requireRequest(donate != null) { "donateId가 잘못되었습니다." }
 
-        applicationQueryService.queryById(QueryApplicationDto(
+        applicationQueryService.accessById(QueryApplicationDto(
             applicationId = donate.applicationId,
             userId = dto.requesterId,
         ))

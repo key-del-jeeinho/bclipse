@@ -35,7 +35,7 @@ class ApplicationController(
             userId = userDetail.userId,
         )
 
-        val result = applicationQueryService.queryById(dto)
+        val result = applicationQueryService.accessById(dto)
 
         return ResponseEntity.ok(result)
     }
