@@ -5,6 +5,7 @@ import com.bclipse.monolith.application.application.dto.QueryApplicationDto
 import com.bclipse.monolith.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.application.application.dto.request.AddPluginRequest
+import com.bclipse.monolith.application.application.dto.request.AddTossApplicationRequest
 import com.bclipse.monolith.application.application.dto.request.AuthApplicationRequest
 import com.bclipse.monolith.application.application.dto.request.CreateApplicationRequest
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
@@ -74,7 +75,7 @@ class ApplicationController(
     }
 
     @Operation(summary = "플러그인 추가")
-    @PostMapping("/{applicationId}/setting/version")
+    @PostMapping("/{applicationId}/setting/plugins")
     fun addPlugin(
         @RequestBody request: AddPluginRequest,
         @PathVariable("applicationId") applicationId: String,
@@ -86,6 +87,23 @@ class ApplicationController(
         )
 
         val result = applicationSettingService.addPlugin(dto)
+
+        return ResponseEntity.ok(result)
+    }
+
+    @Operation(summary = "토스 어플리케이션 추가")
+    @PostMapping("/{applicationId}/setting/applications/toss")
+    fun addPlugin(
+        @RequestBody request: AddTossApplicationRequest,
+        @PathVariable("applicationId") applicationId: String,
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
+    ): ResponseEntity<UnsecuredApplicationDto> {
+        val dto = request.toDto(
+            requesterId = userDetail.userId,
+            applicationId = applicationId,
+        )
+
+        val result = applicationSettingService.addTossApplication(dto)
 
         return ResponseEntity.ok(result)
     }
