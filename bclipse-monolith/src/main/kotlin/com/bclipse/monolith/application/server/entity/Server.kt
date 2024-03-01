@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.server.entity
 
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import nonapi.io.github.classgraph.json.Id
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.index.Indexed

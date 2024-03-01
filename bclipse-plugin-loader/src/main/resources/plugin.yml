@@ -1,0 +1,6 @@
+name: bclipse-plugin-loader
+version: '${version}'
+api-version: '${apiVersion}'
+main: com.bclipse.loader.PluginLoaderPlugin
+author: raul
+

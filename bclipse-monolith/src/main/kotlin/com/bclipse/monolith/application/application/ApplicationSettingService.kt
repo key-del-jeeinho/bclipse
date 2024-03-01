@@ -1,19 +1,20 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.command.AddPluginDto
-import com.bclipse.monolith.application.application.dto.command.AddTossApplicationDto
-import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
-import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
-import com.bclipse.monolith.application.application.entity.Application
-import com.bclipse.monolith.application.application.entity.ExternalApplicationType
-import com.bclipse.monolith.application.application.entity.PluginMetadata
-import com.bclipse.monolith.application.application.entity.TossApplication
+import com.bclipse.lib.application.dto.DtoConverter.toUnsecuredDto
+import com.bclipse.lib.application.dto.UnsecuredApplicationDto
+import com.bclipse.lib.application.dto.command.AddPluginDto
+import com.bclipse.lib.application.dto.command.AddTossApplicationDto
+import com.bclipse.lib.application.entity.Application
+import com.bclipse.lib.application.entity.ExternalApplicationType
+import com.bclipse.lib.application.entity.PluginMetadata
+import com.bclipse.lib.application.entity.TossApplication
+import com.bclipse.lib.common.entity.Base64UUID
+import com.bclipse.monolith.application.application.document.ApplicationDocument.Companion.toDocument
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
 import com.bclipse.monolith.application.plugin.PluginQueryService
 import com.bclipse.monolith.application.plugin.entity.PluginVersion
 import com.bclipse.monolith.application.server.ServerQueryService
 import com.bclipse.monolith.application.toss.TossService
-import com.bclipse.monolith.common.entity.Base64UUID
 import com.bclipse.monolith.infra.web.WebPrecondition
 import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
 import org.springframework.stereotype.Service
@@ -46,8 +47,9 @@ class ApplicationSettingService(
         val setting = application.setting.copy(externalApplications = externalApplications)
         application.updateSetting(setting)
 
-        val result = applicationRepository.save(application)
-        return result.toUnsecuredDto()
+        val document = application.toDocument()
+        val result = applicationRepository.save(document)
+        return result.toEntity().toUnsecuredDto()
     }
 
     fun addPlugin(dto: AddPluginDto): UnsecuredApplicationDto {
@@ -71,12 +73,15 @@ class ApplicationSettingService(
         val newSetting = application.setting.copy(plugins = plugins)
         application.updateSetting(newSetting)
 
-        val result = applicationRepository.save(application)
-        return result.toUnsecuredDto()
+        val document = application.toDocument()
+        val result = applicationRepository.save(document)
+        return result.toEntity().toUnsecuredDto()
     }
 
     private fun accessApplication(applicationId: String, userId: String): Application {
-        val application = applicationRepository.findByApplicationId(applicationId)
+        val application = applicationRepository
+            .findByApplicationId(applicationId)
+            ?.toEntity()
         requireRequest(application != null) { "applicationId가 잘못되었습니다." }
 
         val server = serverQueryService.queryById(application.serverId)

@@ -1,8 +1,8 @@
 package com.bclipse.monolith.application.application.util
 
-import com.bclipse.monolith.application.application.entity.ApplicationSecretSign
-import com.bclipse.monolith.application.application.dto.command.AuthApplicationDto
-import com.bclipse.monolith.application.application.entity.Application
+import com.bclipse.lib.application.dto.command.AuthApplicationDto
+import com.bclipse.lib.application.entity.Application
+import com.bclipse.lib.application.entity.ApplicationSecretSign
 import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
 import com.bclipse.monolith.infra.web.WebPrecondition.requireState
 import java.time.ZonedDateTime

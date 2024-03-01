@@ -2,7 +2,7 @@ package com.bclipse.monolith.application.donate.entity.document
 
 import com.bclipse.monolith.application.donate.entity.DonateStatus
 import com.bclipse.monolith.application.donate.entity.DonateType
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import nonapi.io.github.classgraph.json.Id
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.index.Indexed

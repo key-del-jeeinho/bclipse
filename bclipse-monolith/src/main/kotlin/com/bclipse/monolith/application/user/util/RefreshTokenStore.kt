@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.user.util
 
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import com.bclipse.monolith.application.user.dto.RefreshTokenDto
 import com.bclipse.monolith.application.user.entity.RefreshToken
 import com.bclipse.monolith.application.user.repository.RefreshTokenRepository

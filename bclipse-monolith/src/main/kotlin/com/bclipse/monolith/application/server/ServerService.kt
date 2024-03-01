@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.server
 
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
 import com.bclipse.monolith.application.server.dto.CreateServerDto
 import com.bclipse.monolith.application.server.dto.ServerDto

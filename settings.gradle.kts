@@ -13,3 +13,5 @@ rootProject.name = "bclipse"
 include("bclipse-plugin-core")
 include("bclipse-plugin-economy")
 include("bclipse-monolith")
+include("bclipse-plugin-loader")
+include("bclipse-lib")

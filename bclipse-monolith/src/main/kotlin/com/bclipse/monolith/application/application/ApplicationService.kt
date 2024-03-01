@@ -1,14 +1,15 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.command.CreateApplicationDto
-import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
-import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
-import com.bclipse.monolith.application.application.entity.Application
-import com.bclipse.monolith.application.application.entity.ApplicationSetting
+import com.bclipse.lib.application.dto.DtoConverter.toUnsecuredDto
+import com.bclipse.lib.application.dto.UnsecuredApplicationDto
+import com.bclipse.lib.application.dto.command.CreateApplicationDto
+import com.bclipse.lib.application.entity.Application
+import com.bclipse.lib.application.entity.ApplicationSetting
+import com.bclipse.lib.common.entity.BCryptHash
+import com.bclipse.lib.common.entity.Base64UUID
+import com.bclipse.monolith.application.application.document.ApplicationDocument.Companion.toDocument
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
 import com.bclipse.monolith.application.server.ServerQueryService
-import com.bclipse.monolith.common.entity.BCryptHash
-import com.bclipse.monolith.common.entity.Base64UUID
 import com.bclipse.monolith.infra.web.WebException
 import com.bclipse.monolith.infra.web.WebPrecondition.requirePermission
 import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
@@ -41,7 +42,7 @@ class ApplicationService(
         val now = ZonedDateTime.now()
         val secretExpireAt = now.plus(SECRET_EXPIRE_IN)
 
-        val toCreate = Application(
+        val document = Application(
             id = ObjectId(),
             applicationId = applicationId,
             applicationSecret = applicationSecret,
@@ -50,9 +51,9 @@ class ApplicationService(
             secretUpdatedAt = now,
             secretExpireAt = secretExpireAt,
             setting = ApplicationSetting.DEFAULT,
-        )
+        ).toDocument()
 
-        val application = applicationRepository.save(toCreate)
-        return application.toUnsecuredDto()
+        val result = applicationRepository.save(document)
+        return result.toEntity().toUnsecuredDto()
     }
 }

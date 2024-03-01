@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.donate
 
 import com.bclipse.monolith.application.application.ApplicationQueryService
-import com.bclipse.monolith.application.application.dto.query.QueryApplicationDto
+import com.bclipse.lib.application.dto.query.QueryApplicationDto
 import com.bclipse.monolith.application.donate.dto.ConfirmManualDonateDto
 import com.bclipse.monolith.application.donate.dto.DonateManualAccountTransferDto
 import com.bclipse.monolith.application.donate.entity.DonateStatus
@@ -10,7 +10,7 @@ import com.bclipse.monolith.application.donate.entity.document.DonateDocument
 import com.bclipse.monolith.application.donate.entity.document.ManualAccountTransferDonateDocument
 import com.bclipse.monolith.application.donate.repository.DonateRepository
 import com.bclipse.monolith.application.donate.repository.ManualAccountTransferDonateRepository
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import com.bclipse.monolith.infra.web.WebException
 import com.bclipse.monolith.infra.web.WebPrecondition
 import org.bson.types.ObjectId

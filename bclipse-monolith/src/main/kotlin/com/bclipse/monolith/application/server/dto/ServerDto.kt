@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.server.dto
 
-import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.lib.common.entity.Base64UUID
 import com.bclipse.monolith.application.server.entity.Server
 import java.time.ZonedDateTime
 

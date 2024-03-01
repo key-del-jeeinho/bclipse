@@ -21,6 +21,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":bclipse-lib"))
     implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-security")

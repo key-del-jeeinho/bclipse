@@ -1,13 +1,13 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.ApplicationDetailDto
-import com.bclipse.monolith.application.application.dto.query.QueryApplicationDto
-import com.bclipse.monolith.application.application.dto.SimpleApplicationAccessTokenDto
-import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
-import com.bclipse.monolith.application.application.dto.request.AddPluginRequest
-import com.bclipse.monolith.application.application.dto.request.AddTossApplicationRequest
-import com.bclipse.monolith.application.application.dto.request.AuthApplicationRequest
-import com.bclipse.monolith.application.application.dto.request.CreateApplicationRequest
+import com.bclipse.lib.application.dto.query.QueryApplicationDto
+import com.bclipse.lib.application.dto.request.AddPluginRequest
+import com.bclipse.lib.application.dto.request.AddTossApplicationRequest
+import com.bclipse.lib.application.dto.request.AuthApplicationRequest
+import com.bclipse.lib.application.dto.request.CreateApplicationRequest
+import com.bclipse.lib.application.dto.ApplicationDetailDto
+import com.bclipse.lib.application.dto.SimpleApplicationAccessTokenDto
+import com.bclipse.lib.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
