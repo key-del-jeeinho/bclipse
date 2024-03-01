@@ -1,13 +1,13 @@
 package com.bclipse.monolith.application.application
 
+import com.bclipse.lib.application.dto.ApplicationDetailDto
+import com.bclipse.lib.application.dto.SimpleApplicationAccessTokenDto
+import com.bclipse.lib.application.dto.UnsecuredApplicationDto
 import com.bclipse.lib.application.dto.query.QueryApplicationDto
 import com.bclipse.lib.application.dto.request.AddPluginRequest
 import com.bclipse.lib.application.dto.request.AddTossApplicationRequest
 import com.bclipse.lib.application.dto.request.AuthApplicationRequest
 import com.bclipse.lib.application.dto.request.CreateApplicationRequest
-import com.bclipse.lib.application.dto.ApplicationDetailDto
-import com.bclipse.lib.application.dto.SimpleApplicationAccessTokenDto
-import com.bclipse.lib.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -53,8 +53,6 @@ class ApplicationController(
         return ResponseEntity.ok(result)
     }
 
-    //내 어플리케이션 조회
-    //어플리케이션 단건 조회
     //어플리케이션 시크릿 변경
 
     @Operation(summary = "어플리케이션 인증토큰 발급/갱신")
