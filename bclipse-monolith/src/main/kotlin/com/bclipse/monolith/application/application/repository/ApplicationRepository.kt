@@ -7,4 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 interface ApplicationRepository: MongoRepository<Application, ObjectId> {
     fun existsByApplicationId(applicationId: String): Boolean
     fun findByApplicationId(applicationId: String): Application?
+    fun findAllByApplicationIdIsIn(applicationId: List<String>): List<Application>
 }

@@ -12,7 +12,7 @@ data class ApplicationDetailDto(
     val secretUpdatedAt: ZonedDateTime,
     val secretExpireAt: ZonedDateTime,
     val setting: ApplicationSettingDto,
-) {
+): ApplicationQueryResultDto {
     companion object {
         fun Application.toDetailDto(): ApplicationDetailDto =
             ApplicationDetailDto(
@@ -24,4 +24,6 @@ data class ApplicationDetailDto(
                 setting = setting.toDto(),
             )
     }
+
+    override fun getQueryResultId(): Base64UUID = id
 }

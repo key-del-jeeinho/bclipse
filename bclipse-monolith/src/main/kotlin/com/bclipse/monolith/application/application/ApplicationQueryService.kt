@@ -1,10 +1,16 @@
 package com.bclipse.monolith.application.application
 
+import com.bclipse.monolith.application.application.dto.ApplicationAggregateType
+import com.bclipse.monolith.application.application.dto.ApplicationAggregateType.*
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto.Companion.toDetailDto
+import com.bclipse.monolith.application.application.dto.ApplicationIdDto.Companion.toIdDto
+import com.bclipse.monolith.application.application.dto.ApplicationQueryResultDto
 import com.bclipse.monolith.application.application.dto.QueryApplicationDto
+import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
 import com.bclipse.monolith.application.server.ServerQueryService
+import com.bclipse.monolith.common.entity.Base64UUID
 import com.bclipse.monolith.infra.web.WebException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -35,4 +41,25 @@ class ApplicationQueryService(
 
     fun existsById(applicationId: String): Boolean =
         applicationRepository.existsByApplicationId(applicationId)
+
+    fun queryAllByIds(
+        applicationIds: List<Base64UUID>,
+        aggregateType: ApplicationAggregateType
+    ): List<ApplicationQueryResultDto> {
+        return when(aggregateType) {
+            ID -> applicationIds.map { it.toIdDto() }
+            UNSECURED_APPLICATION -> {
+                val applications = applicationRepository.findAllByApplicationIdIsIn(
+                    applicationIds.map(Base64UUID::value)
+                )
+                return applications.map { it.toUnsecuredDto() }
+            }
+            APPLICATION_DETAIL -> {
+                val applications = applicationRepository.findAllByApplicationIdIsIn(
+                    applicationIds.map(Base64UUID::value)
+                )
+                return applications.map { it.toDetailDto() }
+            }
+        }
+    }
 }
