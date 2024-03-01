@@ -13,7 +13,7 @@ class DonateDocument(
     @Id val id: ObjectId,
     @Indexed(unique = true)
     val donateId: Base64UUID,
-    @Indexed val applicationId: String,
+    @Indexed val applicationId: Base64UUID,
     @Indexed val donorId: String,
     val amount: Int,
     val type: DonateType,

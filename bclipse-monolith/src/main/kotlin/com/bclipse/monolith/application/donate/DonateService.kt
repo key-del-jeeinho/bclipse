@@ -11,8 +11,10 @@ import com.bclipse.monolith.application.donate.entity.document.ManualAccountTran
 import com.bclipse.monolith.application.donate.repository.DonateRepository
 import com.bclipse.monolith.application.donate.repository.ManualAccountTransferDonateRepository
 import com.bclipse.monolith.common.entity.Base64UUID
+import com.bclipse.monolith.infra.web.WebException
 import com.bclipse.monolith.infra.web.WebPrecondition
 import org.bson.types.ObjectId
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,11 +32,13 @@ class DonateService(
         WebPrecondition.requireRequest(isExists) { "applicationId가 잘못되었습니다." }
 
         val donateId = Base64UUID.generate()
+        val applicationId = runCatching { Base64UUID.fromEncodedString(dto.applicationId) }
+            .getOrElse { throwable -> throw WebException(HttpStatus.BAD_REQUEST, throwable) }
 
         val donate = DonateDocument(
             id = ObjectId(),
             donateId = donateId,
-            applicationId = dto.applicationId,
+            applicationId = applicationId,
             donorId = dto.donorId,
             amount = dto.amount,
             type = DonateType.MANUAL_ACCOUNT_TRANSFER,
@@ -55,7 +59,7 @@ class DonateService(
         WebPrecondition.requireRequest(donate != null) { "donateId가 잘못되었습니다." }
 
         applicationQueryService.accessById(QueryApplicationDto(
-            applicationId = donate.applicationId,
+            applicationId = donate.applicationId.value,
             userId = dto.requesterId,
         ))
 
