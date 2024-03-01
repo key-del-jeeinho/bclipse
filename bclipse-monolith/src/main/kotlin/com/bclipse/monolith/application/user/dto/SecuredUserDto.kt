@@ -7,7 +7,7 @@ data class SecuredUserDto(
     val id: String,
     val name : String,
     val createdAt: ZonedDateTime,
-) {
+): UserQueryResultDto {
     companion object {
         fun User.toSecuredDto(): SecuredUserDto = SecuredUserDto(
             id = userId,
@@ -15,10 +15,12 @@ data class SecuredUserDto(
             createdAt = createdAt
         )
 
-        fun User.toProfileDto(): UserProfileDto =UserProfileDto(
+        fun User.toProfileDto(): UserProfileDto = UserProfileDto(
             id = userId,
             name = name,
             createdAt = createdAt
         )
     }
+
+    override fun getQueryResultId(): String = id
 }

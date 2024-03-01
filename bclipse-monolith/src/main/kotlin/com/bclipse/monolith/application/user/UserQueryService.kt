@@ -1,14 +1,14 @@
 package com.bclipse.monolith.application.user
 
-import com.bclipse.monolith.infra.web.WebPrecondition.preconditionWeb
-import com.bclipse.monolith.application.user.dto.SecuredUserDto
+import com.bclipse.monolith.application.user.dto.*
 import com.bclipse.monolith.application.user.dto.SecuredUserDto.Companion.toProfileDto
 import com.bclipse.monolith.application.user.dto.SecuredUserDto.Companion.toSecuredDto
-import com.bclipse.monolith.application.user.dto.UserDto
+import com.bclipse.monolith.application.user.dto.UserAggregateType.*
 import com.bclipse.monolith.application.user.dto.UserDto.Companion.toDto
-import com.bclipse.monolith.application.user.dto.UserProfileDto
+import com.bclipse.monolith.application.user.dto.UserIdDto.Companion.toIdDto
 import com.bclipse.monolith.application.user.entity.User
 import com.bclipse.monolith.application.user.repository.UserRepository
+import com.bclipse.monolith.infra.web.WebPrecondition.preconditionWeb
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -33,5 +33,22 @@ class UserQueryService(
 
         preconditionWeb(user != null, HttpStatus.NOT_FOUND) { IllegalStateException("유저를 찾을 수 없습니다 - '$userId'") }
         return user
+    }
+
+    fun queryAllByIds(
+        userIds: List<String>,
+        aggregateType: UserAggregateType
+    ): List<UserQueryResultDto> {
+        return when(aggregateType) {
+            ID -> userIds.map { it.toIdDto() }
+            SECURED_USER -> {
+                val users = userRepository.findAllByUserIdIsIn(userIds)
+                users.map { it.toSecuredDto() }
+            }
+            USER_PROFILE -> {
+                val users = userRepository.findAllByUserIdIsIn(userIds)
+                users.map { it.toProfileDto() }
+            }
+        }
     }
 }
