@@ -6,4 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface DonateRepository: MongoRepository<DonateDocument, ObjectId> {
     fun findByDonateId(donateId: String): DonateDocument?
+    fun findAllByDonorId(donorId: String): List<DonateDocument>
 }

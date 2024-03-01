@@ -1,5 +1,6 @@
 package com.bclipse.monolith.application.donate.entity.document
 
+import com.bclipse.monolith.application.donate.dto.DonateDto
 import com.bclipse.monolith.application.donate.entity.DonateStatus
 import com.bclipse.monolith.application.donate.entity.DonateType
 import com.bclipse.monolith.common.entity.Base64UUID
@@ -23,4 +24,13 @@ class DonateDocument(
         private set
 
     fun confirm() { status = DonateStatus.CONFIRMED }
+
+    fun toDto(): DonateDto = DonateDto(
+        id = donateId,
+        applicationId = applicationId,
+        donorId = donorId,
+        amount = amount,
+        type = type,
+        status = status,
+    )
 }

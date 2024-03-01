@@ -1,8 +1,10 @@
 package com.bclipse.monolith.application.donate
 
 import com.bclipse.monolith.application.donate.dto.ConfirmManualDonateDto
+import com.bclipse.monolith.application.donate.dto.DonateDto
 import com.bclipse.monolith.application.donate.dto.request.ManualAccountTransferDonateRequest
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
+import com.bclipse.monolith.infra.web.ListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/donates")
 class DonateController(
     private val donateService: DonateService,
+    private val donateQueryService: DonateQueryService,
 ) {
     //수동후원(계좌이체) 신청
     @Operation(summary = "수동후원(계좌이체) 신청")
@@ -45,4 +48,14 @@ class DonateController(
     }
     //자동후원
     //내 후원내역 조회
+    @Operation(summary = "내 후원내역 조회")
+    @GetMapping("/my")
+    fun queryMyDonates(
+        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
+    ): ResponseEntity<ListResponse<DonateDto>> {
+        val result = donateQueryService.queryMyDonates(userDetail.userId)
+        return ResponseEntity.ok(
+            ListResponse(result)
+        )
+    }
 }
