@@ -1,11 +1,11 @@
 package com.bclipse.monolith.application.donate
 
-import com.bclipse.monolith.application.application.dto.ApplicationAggregateType
+import com.bclipse.monolith.application.application.dto.query.ApplicationAggregateType
 import com.bclipse.monolith.application.donate.dto.AggregatedDonateDto
 import com.bclipse.monolith.application.donate.dto.ConfirmManualDonateDto
 import com.bclipse.monolith.application.donate.dto.DonateAggregateOption
 import com.bclipse.monolith.application.donate.dto.request.ManualAccountTransferDonateRequest
-import com.bclipse.monolith.application.user.dto.UserAggregateType
+import com.bclipse.monolith.application.user.dto.query.UserAggregateType
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
 import com.bclipse.monolith.infra.web.ListResponse
 import io.swagger.v3.oas.annotations.Operation

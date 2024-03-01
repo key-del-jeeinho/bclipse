@@ -1,12 +1,12 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.ApplicationAggregateType
-import com.bclipse.monolith.application.application.dto.ApplicationAggregateType.*
+import com.bclipse.monolith.application.application.dto.query.ApplicationAggregateType
+import com.bclipse.monolith.application.application.dto.query.ApplicationAggregateType.*
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto.Companion.toDetailDto
 import com.bclipse.monolith.application.application.dto.ApplicationIdDto.Companion.toIdDto
-import com.bclipse.monolith.application.application.dto.ApplicationQueryResultDto
-import com.bclipse.monolith.application.application.dto.QueryApplicationDto
+import com.bclipse.monolith.application.application.dto.query.ApplicationQueryResultDto
+import com.bclipse.monolith.application.application.dto.query.QueryApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
 import com.bclipse.monolith.application.server.ServerQueryService

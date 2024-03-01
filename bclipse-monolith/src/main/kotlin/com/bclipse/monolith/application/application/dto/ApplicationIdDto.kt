@@ -1,5 +1,6 @@
 package com.bclipse.monolith.application.application.dto
 
+import com.bclipse.monolith.application.application.dto.query.ApplicationQueryResultDto
 import com.bclipse.monolith.common.entity.Base64UUID
 
 data class ApplicationIdDto(val id: Base64UUID): ApplicationQueryResultDto {

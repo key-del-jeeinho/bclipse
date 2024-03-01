@@ -2,7 +2,7 @@ package com.bclipse.monolith.application.application
 
 import com.bclipse.monolith.application.application.util.ApplicationAuthUtil.requireRequestSecretSign
 import com.bclipse.monolith.application.application.util.ApplicationAuthUtil.requireStateSecretNotExpired
-import com.bclipse.monolith.application.application.dto.AuthApplicationDto
+import com.bclipse.monolith.application.application.dto.command.AuthApplicationDto
 import com.bclipse.monolith.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.monolith.application.application.entity.Application
 import com.bclipse.monolith.application.application.entity.ApplicationAccessToken

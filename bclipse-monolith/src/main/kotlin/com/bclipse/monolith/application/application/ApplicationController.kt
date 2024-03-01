@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.application
 
 import com.bclipse.monolith.application.application.dto.ApplicationDetailDto
-import com.bclipse.monolith.application.application.dto.QueryApplicationDto
+import com.bclipse.monolith.application.application.dto.query.QueryApplicationDto
 import com.bclipse.monolith.application.application.dto.SimpleApplicationAccessTokenDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.application.application.dto.request.AddPluginRequest

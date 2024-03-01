@@ -1,4 +1,4 @@
-package com.bclipse.monolith.application.application.dto
+package com.bclipse.monolith.application.application.dto.command
 
 import com.bclipse.monolith.application.application.entity.TossApiVersion
 

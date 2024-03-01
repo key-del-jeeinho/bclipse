@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.application.dto.request
 
-import com.bclipse.monolith.application.application.dto.AuthApplicationDto
+import com.bclipse.monolith.application.application.dto.command.AuthApplicationDto
 
 data class AuthApplicationRequest(
     val timestamp: Long,

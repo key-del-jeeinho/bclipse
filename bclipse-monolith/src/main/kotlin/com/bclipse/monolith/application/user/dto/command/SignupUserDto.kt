@@ -1,4 +1,4 @@
-package com.bclipse.monolith.application.user.dto
+package com.bclipse.monolith.application.user.dto.command
 
 data class SignupUserDto(
     val id: String,

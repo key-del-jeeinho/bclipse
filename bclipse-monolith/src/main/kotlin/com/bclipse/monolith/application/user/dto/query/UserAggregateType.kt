@@ -1,4 +1,4 @@
-package com.bclipse.monolith.application.user.dto
+package com.bclipse.monolith.application.user.dto.query
 
 enum class UserAggregateType {
     ID,

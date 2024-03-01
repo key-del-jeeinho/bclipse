@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.CreateApplicationDto
+import com.bclipse.monolith.application.application.dto.command.CreateApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.monolith.application.application.entity.Application

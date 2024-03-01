@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.monolith.application.application.dto.AddPluginDto
-import com.bclipse.monolith.application.application.dto.AddTossApplicationDto
+import com.bclipse.monolith.application.application.dto.command.AddPluginDto
+import com.bclipse.monolith.application.application.dto.command.AddTossApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto
 import com.bclipse.monolith.application.application.dto.UnsecuredApplicationDto.Companion.toUnsecuredDto
 import com.bclipse.monolith.application.application.entity.Application

@@ -1,5 +1,6 @@
 package com.bclipse.monolith.application.application.dto
 
+import com.bclipse.monolith.application.application.dto.query.ApplicationQueryResultDto
 import com.bclipse.monolith.application.application.entity.Application
 import com.bclipse.monolith.common.entity.BCryptHash
 import com.bclipse.monolith.common.entity.Base64UUID

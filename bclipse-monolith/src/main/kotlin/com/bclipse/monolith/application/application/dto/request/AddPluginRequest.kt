@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.application.dto.request
 
-import com.bclipse.monolith.application.application.dto.AddPluginDto
+import com.bclipse.monolith.application.application.dto.command.AddPluginDto
 
 data class AddPluginRequest(
     val pluginId: String,

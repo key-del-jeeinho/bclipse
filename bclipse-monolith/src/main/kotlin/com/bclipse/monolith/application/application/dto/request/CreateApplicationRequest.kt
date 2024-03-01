@@ -1,6 +1,6 @@
 package com.bclipse.monolith.application.application.dto.request
 
-import com.bclipse.monolith.application.application.dto.CreateApplicationDto
+import com.bclipse.monolith.application.application.dto.command.CreateApplicationDto
 
 data class CreateApplicationRequest(
     val serverId: String,

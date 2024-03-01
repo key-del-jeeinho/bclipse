@@ -1,5 +1,6 @@
 package com.bclipse.monolith.application.user.dto
 
+import com.bclipse.monolith.application.user.dto.query.UserQueryResultDto
 import com.bclipse.monolith.application.user.entity.User
 import java.time.ZonedDateTime
 

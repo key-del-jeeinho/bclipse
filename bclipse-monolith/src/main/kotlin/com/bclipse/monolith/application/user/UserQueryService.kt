@@ -3,9 +3,11 @@ package com.bclipse.monolith.application.user
 import com.bclipse.monolith.application.user.dto.*
 import com.bclipse.monolith.application.user.dto.SecuredUserDto.Companion.toProfileDto
 import com.bclipse.monolith.application.user.dto.SecuredUserDto.Companion.toSecuredDto
-import com.bclipse.monolith.application.user.dto.UserAggregateType.*
+import com.bclipse.monolith.application.user.dto.query.UserAggregateType.*
 import com.bclipse.monolith.application.user.dto.UserDto.Companion.toDto
 import com.bclipse.monolith.application.user.dto.UserIdDto.Companion.toIdDto
+import com.bclipse.monolith.application.user.dto.query.UserAggregateType
+import com.bclipse.monolith.application.user.dto.query.UserQueryResultDto
 import com.bclipse.monolith.application.user.entity.User
 import com.bclipse.monolith.application.user.repository.UserRepository
 import com.bclipse.monolith.infra.web.WebPrecondition.preconditionWeb

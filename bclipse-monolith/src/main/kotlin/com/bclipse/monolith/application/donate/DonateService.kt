@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.donate
 
 import com.bclipse.monolith.application.application.ApplicationQueryService
-import com.bclipse.monolith.application.application.dto.QueryApplicationDto
+import com.bclipse.monolith.application.application.dto.query.QueryApplicationDto
 import com.bclipse.monolith.application.donate.dto.ConfirmManualDonateDto
 import com.bclipse.monolith.application.donate.dto.DonateManualAccountTransferDto
 import com.bclipse.monolith.application.donate.entity.DonateStatus
@@ -58,10 +58,12 @@ class DonateService(
         val donate = donateRepository.findByDonateId(dto.donateId)
         WebPrecondition.requireRequest(donate != null) { "donateId가 잘못되었습니다." }
 
-        applicationQueryService.accessById(QueryApplicationDto(
+        applicationQueryService.accessById(
+            QueryApplicationDto(
             applicationId = donate.applicationId.value,
             userId = dto.requesterId,
-        ))
+        )
+        )
 
         donate.confirm()
 

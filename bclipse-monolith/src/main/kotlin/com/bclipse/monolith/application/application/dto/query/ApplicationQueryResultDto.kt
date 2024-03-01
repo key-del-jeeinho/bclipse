@@ -1,4 +1,4 @@
-package com.bclipse.monolith.application.application.dto
+package com.bclipse.monolith.application.application.dto.query
 
 import com.bclipse.monolith.common.entity.Base64UUID
 
