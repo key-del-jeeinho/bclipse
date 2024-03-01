@@ -1,8 +1,11 @@
 package com.bclipse.monolith.application.donate
 
+import com.bclipse.monolith.application.application.dto.ApplicationAggregateType
+import com.bclipse.monolith.application.donate.dto.AggregatedDonateDto
 import com.bclipse.monolith.application.donate.dto.ConfirmManualDonateDto
-import com.bclipse.monolith.application.donate.dto.DonateDto
+import com.bclipse.monolith.application.donate.dto.DonateAggregateOption
 import com.bclipse.monolith.application.donate.dto.request.ManualAccountTransferDonateRequest
+import com.bclipse.monolith.application.user.dto.UserAggregateType
 import com.bclipse.monolith.infra.security.UserDetailsAdapter
 import com.bclipse.monolith.infra.web.ListResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -52,8 +55,13 @@ class DonateController(
     @GetMapping("/my")
     fun queryMyDonates(
         @AuthenticationPrincipal userDetail: UserDetailsAdapter,
-    ): ResponseEntity<ListResponse<DonateDto>> {
-        val result = donateQueryService.queryMyDonates(userDetail.userId)
+        @RequestParam("aggregate.application") application: ApplicationAggregateType,
+        @RequestParam("aggregate.donor") donor: UserAggregateType,
+    ): ResponseEntity<ListResponse<AggregatedDonateDto>> {
+        val result = donateQueryService.queryMyDonates(
+            userDetail.userId,
+            DonateAggregateOption(application, donor),
+        )
         return ResponseEntity.ok(
             ListResponse(result)
         )
