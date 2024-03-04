@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":bclipse-lib"))
     implementation(project(":bclipse-plugin-core"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.insert-koin:koin-core:3.1.2")

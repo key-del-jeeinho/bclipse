@@ -1,7 +1,7 @@
 package com.bclipse.lib.common.entity
 
 import org.springframework.security.crypto.bcrypt.BCrypt
-import java.util.UUID
+import java.util.*
 
 @JvmInline
 value class BCryptHash private constructor(
@@ -13,5 +13,7 @@ value class BCryptHash private constructor(
             val secret = BCrypt.hashpw(uuid, BCrypt.gensalt())
             return BCryptHash(secret)
         }
+
+        fun of(value: String): BCryptHash = BCryptHash(value)
     }
 }

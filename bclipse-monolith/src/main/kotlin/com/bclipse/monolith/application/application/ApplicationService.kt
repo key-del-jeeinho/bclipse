@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.lib.application.dto.DtoConverter.toUnsecuredDto
-import com.bclipse.lib.application.dto.UnsecuredApplicationDto
+import com.bclipse.lib.application.dto.DtoConverter.toDto
+import com.bclipse.lib.application.dto.ApplicationDto
 import com.bclipse.lib.application.dto.command.CreateApplicationDto
 import com.bclipse.lib.application.entity.Application
 import com.bclipse.lib.application.entity.ApplicationSetting
@@ -26,7 +26,7 @@ class ApplicationService(
     private val applicationRepository: ApplicationRepository,
     private val serverQueryService: ServerQueryService,
 ) {
-    fun create(dto: CreateApplicationDto): UnsecuredApplicationDto {
+    fun create(dto: CreateApplicationDto): ApplicationDto {
         val serverId = runCatching { Base64UUID.fromEncodedString(dto.serverId) }
             .getOrElse { throwable -> throw WebException(HttpStatus.BAD_REQUEST, throwable) }
 
@@ -54,6 +54,6 @@ class ApplicationService(
         ).toDocument()
 
         val result = applicationRepository.save(document)
-        return result.toEntity().toUnsecuredDto()
+        return result.toEntity().toDto()
     }
 }

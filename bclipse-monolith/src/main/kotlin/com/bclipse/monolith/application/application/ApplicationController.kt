@@ -1,8 +1,8 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.lib.application.dto.ApplicationDetailDto
+import com.bclipse.lib.application.dto.ApplicationDto
+import com.bclipse.lib.application.dto.SecuredApplicationDto
 import com.bclipse.lib.application.dto.SimpleApplicationAccessTokenDto
-import com.bclipse.lib.application.dto.UnsecuredApplicationDto
 import com.bclipse.lib.application.dto.query.QueryApplicationDto
 import com.bclipse.lib.application.dto.request.AddPluginRequest
 import com.bclipse.lib.application.dto.request.AddTossApplicationRequest
@@ -12,6 +12,7 @@ import com.bclipse.monolith.infra.security.UserDetailsAdapter
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -29,7 +30,7 @@ class ApplicationController(
     fun queryById(
         @PathVariable applicationId: String,
         @AuthenticationPrincipal userDetail: UserDetailsAdapter,
-    ): ResponseEntity<ApplicationDetailDto> {
+    ): ResponseEntity<SecuredApplicationDto> {
         val dto = QueryApplicationDto(
             applicationId = applicationId,
             userId = userDetail.userId,
@@ -45,7 +46,7 @@ class ApplicationController(
     fun create(
         @RequestBody request: CreateApplicationRequest,
         @AuthenticationPrincipal userDetail: UserDetailsAdapter,
-    ): ResponseEntity<UnsecuredApplicationDto> {
+    ): ResponseEntity<ApplicationDto> {
         val dto = request.toDto(userDetail.userId)
 
         val result = applicationService.create(dto)
@@ -57,15 +58,12 @@ class ApplicationController(
 
     @Operation(summary = "어플리케이션 인증토큰 발급/갱신")
     @PostMapping("/{applicationId}/auth-token")
+    @PreAuthorize("permitAll()")
     fun authorize(
         @RequestBody request: AuthApplicationRequest,
         @PathVariable("applicationId") applicationId: String,
-        @AuthenticationPrincipal userDetail: UserDetailsAdapter,
     ): ResponseEntity<SimpleApplicationAccessTokenDto> {
-        val dto = request.toDto(
-            requesterId = userDetail.userId,
-            applicationId = applicationId
-        )
+        val dto = request.toDto(applicationId)
 
         val result = applicationAuthService.authorize(dto)
 
@@ -78,7 +76,7 @@ class ApplicationController(
         @RequestBody request: AddPluginRequest,
         @PathVariable("applicationId") applicationId: String,
         @AuthenticationPrincipal userDetail: UserDetailsAdapter,
-    ): ResponseEntity<UnsecuredApplicationDto> {
+    ): ResponseEntity<ApplicationDto> {
         val dto = request.toDto(
             requesterId = userDetail.userId,
             applicationId = applicationId,
@@ -95,7 +93,7 @@ class ApplicationController(
         @RequestBody request: AddTossApplicationRequest,
         @PathVariable("applicationId") applicationId: String,
         @AuthenticationPrincipal userDetail: UserDetailsAdapter,
-    ): ResponseEntity<UnsecuredApplicationDto> {
+    ): ResponseEntity<ApplicationDto> {
         val dto = request.toDto(
             requesterId = userDetail.userId,
             applicationId = applicationId,

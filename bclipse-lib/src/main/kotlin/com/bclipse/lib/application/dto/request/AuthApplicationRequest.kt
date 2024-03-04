@@ -7,10 +7,8 @@ data class AuthApplicationRequest(
     val applicationSecretSign: String,
 ) {
     fun toDto(
-        requesterId: String,
         applicationId: String
     ): AuthApplicationDto = AuthApplicationDto(
-        requesterId = requesterId,
         applicationId = applicationId,
         timestamp = timestamp,
         applicationSecretSign = applicationSecretSign,

@@ -10,9 +10,6 @@ import com.bclipse.monolith.application.application.repository.ApplicationAccess
 import com.bclipse.monolith.application.application.repository.ApplicationRepository
 import com.bclipse.monolith.application.application.util.ApplicationAuthUtil.requireRequestSecretSign
 import com.bclipse.monolith.application.application.util.ApplicationAuthUtil.requireStateSecretNotExpired
-import com.bclipse.monolith.application.server.ServerQueryService
-import com.bclipse.monolith.infra.web.WebPrecondition.checkState
-import com.bclipse.monolith.infra.web.WebPrecondition.requirePermission
 import com.bclipse.monolith.infra.web.WebPrecondition.requireRequest
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
@@ -26,19 +23,12 @@ private val EXPIRE_IN = Duration.ofHours(4)
 class ApplicationAuthService(
     private val applicationRepository: ApplicationRepository,
     private val applicationAccessTokenRepository: ApplicationAccessTokenRepository,
-    private val serverQueryService: ServerQueryService,
 ) {
     fun authorize(dto: AuthApplicationDto): SimpleApplicationAccessTokenDto {
         val application = applicationRepository
             .findByApplicationId(dto.applicationId)
             ?.toEntity()
         requireRequest(application != null) { "applicationId가 잘못되었습니다." }
-
-        val server = serverQueryService.queryById(application.serverId)
-        checkState(server != null) { "serverId가 잘못되었습니다. - '${application.serverId}'" }
-
-        val isOwner = dto.requesterId == server.ownerId
-        requirePermission(isOwner) { "작업을 요청할 권한이 없습니다. - '${dto.requesterId}'" }
 
         requireStateSecretNotExpired(application)
         requireRequestSecretSign(dto, application)
@@ -47,7 +37,7 @@ class ApplicationAuthService(
             .findByApplicationId(dto.applicationId)?.toEntity()
             ?: createAccessToken(application)
 
-        val needRefreshAt = token.expireAt.minus(com.bclipse.monolith.application.application.REFRESH_BEFORE)
+        val needRefreshAt = token.expireAt.minus(REFRESH_BEFORE)
         val needRefresh = ZonedDateTime.now().isAfter(needRefreshAt)
         if(needRefresh) refreshAccessToken(token)
 

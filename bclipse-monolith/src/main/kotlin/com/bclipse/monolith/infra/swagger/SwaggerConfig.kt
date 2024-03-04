@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+
 @Configuration
 class SwaggerConfig {
     @Bean
@@ -19,12 +20,24 @@ class SwaggerConfig {
         return OpenAPI()
             .addSecurityItem(SecurityRequirement()
                 .addList("jwt")
-            ).components(Components().addSecuritySchemes("jwt", SecurityScheme().apply {
-                name = "jwt"
-                type = SecurityScheme.Type.HTTP
-                scheme = "Bearer"
-                bearerFormat = "JWT"
-            }))
-            .info(info)
+                .addList("base64uuid")
+                .addList("accesstype")
+            ).components(Components()
+                .addSecuritySchemes("jwt", SecurityScheme().apply {
+                    name = "jwt"
+                    type = SecurityScheme.Type.HTTP
+                    scheme = "Bearer"
+                    bearerFormat = "JWT"
+                }).addSecuritySchemes("base64uuid", SecurityScheme().apply {
+                    name = "base64uuid"
+                    type = SecurityScheme.Type.HTTP
+                    scheme = ""
+                }).addSecuritySchemes("", SecurityScheme().apply {
+                    name = "accesstype"
+                    type = SecurityScheme.Type.HTTP
+                    scheme = "Bearer"
+                    bearerFormat = "JWT"
+                })
+            ).info(info)
     }
 }

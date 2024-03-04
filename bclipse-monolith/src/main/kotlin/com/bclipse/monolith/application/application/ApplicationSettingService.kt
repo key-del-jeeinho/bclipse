@@ -1,7 +1,7 @@
 package com.bclipse.monolith.application.application
 
-import com.bclipse.lib.application.dto.DtoConverter.toUnsecuredDto
-import com.bclipse.lib.application.dto.UnsecuredApplicationDto
+import com.bclipse.lib.application.dto.ApplicationDto
+import com.bclipse.lib.application.dto.DtoConverter.toDto
 import com.bclipse.lib.application.dto.command.AddPluginDto
 import com.bclipse.lib.application.dto.command.AddTossApplicationDto
 import com.bclipse.lib.application.entity.Application
@@ -28,7 +28,7 @@ class ApplicationSettingService(
     private val pluginQueryService: PluginQueryService,
     private val tossService: TossService
 ) {
-    fun addTossApplication(dto: AddTossApplicationDto): UnsecuredApplicationDto {
+    fun addTossApplication(dto: AddTossApplicationDto): ApplicationDto {
         val application = accessApplication(
             applicationId = dto.applicationId,
             userId = dto.requesterId
@@ -49,10 +49,10 @@ class ApplicationSettingService(
 
         val document = application.toDocument()
         val result = applicationRepository.save(document)
-        return result.toEntity().toUnsecuredDto()
+        return result.toEntity().toDto()
     }
 
-    fun addPlugin(dto: AddPluginDto): UnsecuredApplicationDto {
+    fun addPlugin(dto: AddPluginDto): ApplicationDto {
         val application = accessApplication(
             applicationId = dto.applicationId,
             userId = dto.requesterId
@@ -75,7 +75,7 @@ class ApplicationSettingService(
 
         val document = application.toDocument()
         val result = applicationRepository.save(document)
-        return result.toEntity().toUnsecuredDto()
+        return result.toEntity().toDto()
     }
 
     private fun accessApplication(applicationId: String, userId: String): Application {

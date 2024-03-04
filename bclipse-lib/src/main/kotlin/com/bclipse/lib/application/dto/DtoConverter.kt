@@ -5,18 +5,19 @@ import com.bclipse.lib.application.entity.ApplicationSetting
 import com.bclipse.lib.application.entity.PluginMetadata
 
 object DtoConverter {
-    fun Application.toUnsecuredDto() =
-        UnsecuredApplicationDto(
+    fun Application.toDto() =
+        ApplicationDto(
             serverId = serverId,
             applicationId = applicationId,
             applicationSecret = applicationSecret,
             createdAt = createdAt,
             secretUpdateAt = secretUpdatedAt,
             secretExpiredAt = secretExpireAt,
+            setting = setting.toDto(),
         )
 
-    fun Application.toDetailDto(): ApplicationDetailDto =
-        ApplicationDetailDto(
+    fun Application.toDetailDto(): SecuredApplicationDto =
+        SecuredApplicationDto(
             id = applicationId,
             serverId = serverId,
             createdAt =  createdAt,

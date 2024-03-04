@@ -41,7 +41,8 @@ class WebSecurityConfig(
                 it.requestMatchers(
                     "/api/v1/user/signup",
                     "/api/v1/user/login",
-                    "/api/v1/user/refresh-login"
+                    "/api/v1/user/refresh-login",
+                    "/api/v1/applications/**"
                 ).permitAll()
                 it.requestMatchers("/api/v1/**").authenticated()
             }.sessionManagement{
